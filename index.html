@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>🇫🇷 Déterminants possessifs · mobile</title>
+    <title>🇫🇷 Possessifs · questions précises</title>
     <style>
         * {
             box-sizing: border-box;
@@ -19,7 +19,7 @@
             padding: 10px;
         }
         .app-card {
-            max-width: 400px;  /* typical iPhone 14 width fits nicely */
+            max-width: 400px;
             width: 100%;
             background: #fffcf5f0;
             backdrop-filter: blur(4px);
@@ -55,7 +55,7 @@
             box-shadow: inset 0 2px 6px #ffe6c1;
         }
         .sentence {
-            font-size: 2.2rem;   /* slightly smaller for mobile */
+            font-size: 2.2rem;
             font-weight: 600;
             color: #3e2c14;
             text-align: center;
@@ -78,7 +78,7 @@
             background: #faf0e0;
             border: 3px solid #e2c7a3;
             color: #432f15;
-            font-size: 1.6rem;    /* responsive size */
+            font-size: 1.6rem;
             font-weight: 700;
             min-width: 85px;
             padding: 14px 4px;
@@ -111,6 +111,10 @@
             text-decoration: line-through 2px #a00;
             pointer-events: none;
         }
+        .det-btn.multi-correct {
+            background: #d4e0f0;  /* subtle blue for multiple correct */
+            border-color: #5a7ca0;
+        }
         .det-btn:disabled {
             opacity: 0.8;
             cursor: not-allowed;
@@ -135,7 +139,7 @@
             justify-content: space-between;
             gap: 8px;
             margin-top: 8px;
-            flex-wrap: wrap; /* allows wrap on very small but we aim to keep in line */
+            flex-wrap: wrap;
         }
         .reset-btn {
             background: #e7cfb0;
@@ -149,7 +153,7 @@
             cursor: pointer;
             transition: 0.08s;
             border: 2px solid #ffe9cf;
-            flex: 1; 
+            flex: 1;
             min-width: 110px;
             white-space: nowrap;
         }
@@ -183,8 +187,6 @@
             box-shadow: 0 2px 0 #1b3b24;
             pointer-events: none;
         }
-
-        /* score container placed between buttons */
         .score-middle {
             display: flex;
             gap: 12px;
@@ -227,6 +229,15 @@
             border-top: 1px solid #eddbbd;
             padding-top: 16px;
         }
+        .badge-multi {
+            background: #c4d5e8;
+            color: #1d3a5c;
+            border-radius: 20px;
+            padding: 2px 12px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            font-weight: 400;
+        }
     </style>
 </head>
 <body>
@@ -234,28 +245,22 @@
     <h1>
         <span>🧑‍🏫</span>
         Possessifs
+        <span class="badge-multi">+ multiples</span>
     </h1>
 
-    <!-- sentence area -->
     <div class="question-panel">
         <div class="sentence" id="sentenceDisplay">_____ chat est mignon.</div>
     </div>
 
-    <!-- ANSWER BUTTONS grid -->
-    <div id="optionsContainer" class="options-grid">
-        <!-- injected by js -->
-    </div>
+    <div id="optionsContainer" class="options-grid"></div>
 
-    <!-- feedback area (no icon) -->
     <div class="feedback" id="feedbackArea">
         <span id="feedbackMessage"></span>
     </div>
 
-    <!-- bottom row : Rejouer | score counters | Suivant  (score in the middle) -->
     <div class="action-row">
         <button class="reset-btn" id="resetBtn" aria-label="rejouer">↻ Rejouer</button>
         
-        <!-- score moved here between buttons -->
         <div class="score-middle">
             <div class="correct-badge">✔ <span id="correctCount">0</span></div>
             <div class="wrong-badge">✘ <span id="wrongCount">0</span></div>
@@ -263,193 +268,129 @@
 
         <button class="next-btn" id="nextBtn">Suivant ➔</button>
     </div>
-    <div class="footer-note">✪ genre · nombre · voyelle ✪</div>
+    <div class="footer-note">✪ 10 questions précises · 5 à réponses multiples ✪</div>
 </div>
 
 <script>
     (function() {
-        // ---------- EXTENDED EXERCISE BANK : at least 10 per possessif ----------
-        const fullBank = [
-            // mon (masc sing / before vowel)
-            { sentence: "_____ chat est mignon.", correct: "mon" },
-            { sentence: "_____ ordinateur est lent.", correct: "mon" },
-            { sentence: "_____ frère s'appelle Paul.", correct: "mon" },
-            { sentence: "_____ stylo ne écrit plus.", correct: "mon" },
-            { sentence: "_____ sac est trop lourd.", correct: "mon" },
-            { sentence: "_____ ami vient de Paris.", correct: "mon" },
-            { sentence: "_____ appartement est petit.", correct: "mon" },
-            { sentence: "_____ vélo est cassé.", correct: "mon" },
-            { sentence: "_____ bureau est en désordre.", correct: "mon" },
-            { sentence: "_____ chien s'appelle Médor.", correct: "mon" },
-            { sentence: "_____ effort a payé.", correct: "mon" },
-            // ma (fém sing)
-            { sentence: "_____ sœur est brésilienne.", correct: "ma" },
-            { sentence: "_____ voiture est en panne.", correct: "ma" },
-            { sentence: "_____ maison est blanche.", correct: "ma" },
-            { sentence: "_____ chambre est rangée.", correct: "ma" },
-            { sentence: "_____ famille est nombreuse.", correct: "ma" },
-            { sentence: "_____ école est fermée.", correct: "ma" },
-            { sentence: "_____ trousse est perdue.", correct: "ma" },
-            { sentence: "_____ montre est élégante.", correct: "ma" },
-            { sentence: "_____ chaise est inconfortable.", correct: "ma" },
-            { sentence: "_____ tablette est déchargée.", correct: "ma" },
-            // mes (pluriel)
-            { sentence: "J'aime _____ chiens.", correct: "mes" },
-            { sentence: "_____ cousins sont drôles.", correct: "mes" },
-            { sentence: "_____ affaires sont dans le couloir.", correct: "mes" },
-            { sentence: "_____ chaussures sont neuves.", correct: "mes" },
-            { sentence: "_____ devoirs sont finis.", correct: "mes" },
-            { sentence: "_____ clés ont disparu.", correct: "mes" },
-            { sentence: "_____ amis arrivent demain.", correct: "mes" },
-            { sentence: "_____ livres préférés sont ici.", correct: "mes" },
-            { sentence: "_____ lunettes sont sales.", correct: "mes" },
-            { sentence: "_____ idées sont intéressantes.", correct: "mes" },
-            // ton (masc sing)
-            { sentence: "_____ père est boulanger.", correct: "ton" },
-            { sentence: "_____ cahier est rouge.", correct: "ton" },
-            { sentence: "_____ téléphone sonne.", correct: "ton" },
-            { sentence: "_____ bureau est en bois.", correct: "ton" },
-            { sentence: "_____ avis compte beaucoup.", correct: "ton" },
-            { sentence: "_____ gâteau est délicieux.", correct: "ton" },
-            { sentence: "_____ exercice est difficile.", correct: "ton" },
-            { sentence: "_____ jardin est fleuri.", correct: "ton" },
-            { sentence: "_____ cousin est musicien.", correct: "ton" },
-            { sentence: "_____ animal est timide.", correct: "ton" },
-            // ta (fém sing)
-            { sentence: "_____ voiture est rouge.", correct: "ta" },
-            { sentence: "_____ trousse est vide.", correct: "ta" },
-            { sentence: "_____ réponse est correcte.", correct: "ta" },
-            { sentence: "_____ chambre est propre.", correct: "ta" },
-            { sentence: "_____ guitare est accordée.", correct: "ta" },
-            { sentence: "_____ chemise est froissée.", correct: "ta" },
-            { sentence: "_____ famille est accueillante.", correct: "ta" },
-            { sentence: "_____ écharpe est douce.", correct: "ta" },
-            { sentence: "_____ valise est lourde.", correct: "ta" },
-            { sentence: "_____ idée est géniale.", correct: "ta" },
-            // son (masc sing / voyelle)
-            { sentence: "Il parle avec _____ frère.", correct: "son" },
-            { sentence: "_____ ami s'appelle Luc.", correct: "son" },
-            { sentence: "_____ ordinateur est rapide.", correct: "son" },
-            { sentence: "_____ stylo est bleu.", correct: "son" },
-            { sentence: "_____ père est ingénieur.", correct: "son" },
-            { sentence: "_____ lit est défait.", correct: "son" },
-            { sentence: "_____ travail est fatiguant.", correct: "son" },
-            { sentence: "_____ cœur bat vite.", correct: "son" },
-            { sentence: "_____ appartement est spacieux.", correct: "son" },
-            { sentence: "_____ chien aboie beaucoup.", correct: "son" },
-            // sa (fém sing)
-            { sentence: "_____ sœur est artiste.", correct: "sa" },
-            { sentence: "_____ voiture est garée.", correct: "sa" },
-            { sentence: "_____ maison est ancienne.", correct: "sa" },
-            { sentence: "_____ chambre est colorée.", correct: "sa" },
-            { sentence: "_____ guitare est acoustique.", correct: "sa" },
-            { sentence: "_____ mère est professeur.", correct: "sa" },
-            { sentence: "_____ robe est longue.", correct: "sa" },
-            { sentence: "_____ famille est fière.", correct: "sa" },
-            { sentence: "_____ école est réputée.", correct: "sa" },
-            { sentence: "_____ idée a marché.", correct: "sa" },
-            // ses (pluriel)
-            { sentence: "_____ livres sont neufs.", correct: "ses" },
-            { sentence: "_____ cousins habitent Nantes.", correct: "ses" },
-            { sentence: "_____ affaires sont partout.", correct: "ses" },
-            { sentence: "_____ chaussures sont cirées.", correct: "ses" },
-            { sentence: "_____ clés sont sur la table.", correct: "ses" },
-            { sentence: "_____ amis l'attendent.", correct: "ses" },
-            { sentence: "_____ idées sont brillantes.", correct: "ses" },
-            { sentence: "_____ notes sont excellentes.", correct: "ses" },
-            { sentence: "_____ parents sont gentils.", correct: "ses" },
-            { sentence: "_____ dessins sont colorés.", correct: "ses" },
-            // notre (sing)
-            { sentence: "_____ maison est confortable.", correct: "notre" },
-            { sentence: "_____ voiture est propre.", correct: "notre" },
-            { sentence: "_____ chien est affectueux.", correct: "notre" },
-            { sentence: "_____ professeur est sympa.", correct: "notre" },
-            { sentence: "_____ école est moderne.", correct: "notre" },
-            { sentence: "_____ jardin fleurit.", correct: "notre" },
-            { sentence: "_____ pays est beau.", correct: "notre" },
-            { sentence: "_____ équipe a gagné.", correct: "notre" },
-            { sentence: "_____ appartement est calme.", correct: "notre" },
-            { sentence: "_____ projet est ambitieux.", correct: "notre" },
-            // nos (pluriel)
-            { sentence: "_____ parents voyagent.", correct: "nos" },
-            { sentence: "_____ amis arrivent.", correct: "nos" },
-            { sentence: "_____ affaires sont rangées.", correct: "nos" },
-            { sentence: "_____ voisins sont bruyants.", correct: "nos" },
-            { sentence: "_____ devoirs sont longs.", correct: "nos" },
-            { sentence: "_____ idées diffèrent.", correct: "nos" },
-            { sentence: "_____ livres sont ouverts.", correct: "nos" },
-            { sentence: "_____ chaussures sont mouillées.", correct: "nos" },
-            { sentence: "_____ vacances commencent.", correct: "nos" },
-            { sentence: "_____ réunions sont courtes.", correct: "nos" },
-            // votre (sing)
-            { sentence: "_____ opinion compte.", correct: "votre" },
-            { sentence: "_____ voiture est rapide.", correct: "votre" },
-            { sentence: "_____ maison est belle.", correct: "votre" },
-            { sentence: "_____ chien est bruyant.", correct: "votre" },
-            { sentence: "_____ professeur explique bien.", correct: "votre" },
-            { sentence: "_____ jardin est entretenu.", correct: "votre" },
-            { sentence: "_____ frère travaille ici.", correct: "votre" },
-            { sentence: "_____ idée est bonne.", correct: "votre" },
-            { sentence: "_____ colis est arrivé.", correct: "votre" },
-            { sentence: "_____ sac est lourd.", correct: "votre" },
-            // vos (pluriel)
-            { sentence: "_____ enfants jouent dehors.", correct: "vos" },
-            { sentence: "_____ affaires sont prêtes.", correct: "vos" },
-            { sentence: "_____ parents sont gentils.", correct: "vos" },
-            { sentence: "_____ amis sont là.", correct: "vos" },
-            { sentence: "_____ clés sont sur la table.", correct: "vos" },
-            { sentence: "_____ idées sont intéressantes.", correct: "vos" },
-            { sentence: "_____ valises sont pesées.", correct: "vos" },
-            { sentence: "_____ chaussures brillent.", correct: "vos" },
-            { sentence: "_____ réponses sont justes.", correct: "vos" },
-            { sentence: "_____ projets aboutissent.", correct: "vos" },
-            // leur (sing)
-            { sentence: "_____ maison est grande.", correct: "leur" },
-            { sentence: "_____ chien est calme.", correct: "leur" },
-            { sentence: "_____ fils est médecin.", correct: "leur" },
-            { sentence: "_____ voiture est neuve.", correct: "leur" },
-            { sentence: "_____ jardin est fleuri.", correct: "leur" },
-            { sentence: "_____ professeur est strict.", correct: "leur" },
-            { sentence: "_____ idée a fonctionné.", correct: "leur" },
-            { sentence: "_____ pays est lointain.", correct: "leur" },
-            { sentence: "_____ père est à la retraite.", correct: "leur" },
-            { sentence: "_____ projet a réussi.", correct: "leur" },
-            // leurs (pluriel)
-            { sentence: "_____ enfants sont sages.", correct: "leurs" },
-            { sentence: "_____ affaires sont dans la cour.", correct: "leurs" },
-            { sentence: "_____ livres sont neufs.", correct: "leurs" },
-            { sentence: "_____ idées sont différentes.", correct: "leurs" },
-            { sentence: "_____ parents sont fiers.", correct: "leurs" },
-            { sentence: "_____ chaussures sont usées.", correct: "leurs" },
-            { sentence: "_____ amis les attendent.", correct: "leurs" },
-            { sentence: "_____ valises sont prêtes.", correct: "leurs" },
-            { sentence: "_____ réponses sont incorrectes.", correct: "leurs" },
-            { sentence: "_____ projets aboutissent.", correct: "leurs" }
+        // ----- BANK OF QUESTIONS -----
+        // Part 1: 10 questions with ONE unambiguous correct answer (basic vocabulary)
+        // Part 2: 5 questions that accept MULTIPLE correct possessives (context allows several owners)
+        
+        const questionBank = [
+            // ===== 10 SINGLE-ANSWER QUESTIONS =====
+            { 
+                sentence: "_____ chat est mignon.", 
+                correct: ["mon"],  // only "mon" works because "chat" is masculine singular and the speaker owns it
+                options: ["mon", "ton", "son", "notre"],
+                type: "single"
+            },
+            { 
+                sentence: "_____ voiture est rouge.", 
+                correct: ["ma"],  // "voiture" feminine singular -> only "ma" fits
+                options: ["ma", "ta", "sa", "notre"],
+                type: "single"
+            },
+            { 
+                sentence: "J'aime _____ chiens.", 
+                correct: ["mes"],  // plural, speaker's dogs
+                options: ["mes", "tes", "ses", "nos"],
+                type: "single"
+            },
+            { 
+                sentence: "_____ sœur s'appelle Marie.", 
+                correct: ["ma"],  // feminine singular, my sister
+                options: ["ma", "ta", "sa", "notre"],
+                type: "single"
+            },
+            { 
+                sentence: "_____ père est boulanger.", 
+                correct: ["mon"],  // masculine singular, my father
+                options: ["mon", "ton", "son", "notre"],
+                type: "single"
+            },
+            { 
+                sentence: "_____ cousins sont drôles.", 
+                correct: ["mes"],  // plural, my cousins
+                options: ["mes", "tes", "ses", "nos"],
+                type: "single"
+            },
+            { 
+                sentence: "_____ école est fermée.", 
+                correct: ["mon"],  // "école" feminine but starts with vowel -> "mon" (règle spéciale)
+                options: ["mon", "ma", "ton", "notre"],
+                type: "single"
+            },
+            { 
+                sentence: "_____ amie s'appelle Lucie.", 
+                correct: ["mon"],  // "amie" feminine + vowel -> "mon"
+                options: ["mon", "ma", "ton", "notre"],
+                type: "single"
+            },
+            { 
+                sentence: "_____ livres sont neufs.", 
+                correct: ["ses"],  // plural, his/her books (context: "ses" because "livres" is object)
+                options: ["ses", "mes", "tes", "nos"],
+                type: "single"
+            },
+            { 
+                sentence: "_____ maison est grande.", 
+                correct: ["notre"],  // "our" house (context: we own it together)
+                options: ["notre", "ma", "ta", "sa"],
+                type: "single"
+            },
+            
+            // ===== 5 MULTIPLE-ANSWER QUESTIONS (accept 2 or 3 correct) =====
+            { 
+                sentence: "_____ gâteau est délicieux.", 
+                correct: ["mon", "ton", "notre"],  // my/your/our cake all valid depending on speaker
+                options: ["mon", "ton", "notre", "ma"],  // "ma" is wrong (gateau masc)
+                type: "multi",
+                hint: "mon, ton, notre sont corrects (mais pas ma)"
+            },
+            { 
+                sentence: "_____ vélo est cassé.", 
+                correct: ["mon", "ton", "son", "notre"],  // my/your/his/our bike all fine
+                options: ["mon", "ton", "son", "notre", "ma"],  // "ma" wrong
+                type: "multi",
+                hint: "mon, ton, son, notre (tous masculins)"
+            },
+            { 
+                sentence: "_____ chambre est propre.", 
+                correct: ["ma", "ta", "sa", "notre"],  // feminine, so ma/ta/sa/notre all work
+                options: ["ma", "ta", "sa", "notre", "mon"],  // "mon" wrong
+                type: "multi",
+                hint: "ma, ta, sa, notre (féminin)"
+            },
+            { 
+                sentence: "_____ parents sont gentils.", 
+                correct: ["mes", "tes", "ses", "nos"],  // plural owners all possible
+                options: ["mes", "tes", "ses", "nos", "mon"],  // "mon" wrong
+                type: "multi",
+                hint: "mes, tes, ses, nos (pluriel)"
+            },
+            { 
+                sentence: "_____ idée est intéressante.", 
+                correct: ["mon", "ton", "son", "notre"],  // "idée" feminine + vowel -> mon/ton/son/notre
+                options: ["mon", "ton", "son", "notre", "ma"],  // "ma" would be incorrect before vowel
+                type: "multi",
+                hint: "mon, ton, son, notre (ma → mon à cause de la voyelle)"
+            }
         ];
 
-        // add an 'options' field to each item: 4 random distractors + correct answer, shuffled
-        function enrichExercise(ex) {
-            const allPoss = ["mon","ma","mes","ton","ta","tes","son","sa","ses","notre","nos","votre","vos","leur","leurs"];
-            let wrongs = [];
-            const others = allPoss.filter(p => p !== ex.correct);
-            const shuffled = [...others].sort(() => 0.5 - Math.random());
-            for (let i=0; i<4; i++) {
-                if (shuffled[i]) wrongs.push(shuffled[i]);
-            }
-            let wrongSet = new Set(wrongs);
-            while (wrongSet.size < 4) {
-                let extra = others[Math.floor(Math.random() * others.length)];
-                if (extra !== ex.correct) wrongSet.add(extra);
-            }
-            let options = [ex.correct, ...Array.from(wrongSet)];
-            for (let i = options.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [options[i], options[j]] = [options[j], options[i]];
-            }
-            return { ...ex, options };
+        // enrich each exercise with shuffled options + metadata
+        function enrichExercises(bank) {
+            return bank.map(ex => {
+                // shuffle options for variety
+                const shuffled = [...ex.options].sort(() => Math.random() - 0.5);
+                return {
+                    ...ex,
+                    options: shuffled
+                };
+            });
         }
 
-        const exerciseBank = fullBank.map(ex => enrichExercise(ex));
+        const exerciseBank = enrichExercises(questionBank);
 
         // ---- state ----
         let currentExerciseSet = [];
@@ -457,7 +398,7 @@
         let correctCount = 0;
         let wrongCount = 0;
         let isAnswered = false;
-        let correctAnswerForCurrent = '';
+        let currentExercise = null;
 
         // DOM elements
         const sentenceDisplay = document.getElementById('sentenceDisplay');
@@ -476,9 +417,9 @@
             return arr;
         }
 
-        function pickRandomExercises(count = 35) { // slightly fewer for mobile variety
-            const shuffled = shuffleArray([...exerciseBank]);
-            return shuffled.slice(0, count);
+        // use all 15 exercises in order but shuffle once at reset
+        function getExerciseSet() {
+            return shuffleArray([...exerciseBank]); // random order each reset
         }
 
         function updateScoreDisplay() {
@@ -487,13 +428,16 @@
         }
 
         function renderExercise() {
-            if (!currentExerciseSet.length || currentIndex >= currentExerciseSet.length) return;
+            if (!currentExerciseSet.length || currentIndex >= currentExerciseSet.length) {
+                // end of set
+                return;
+            }
 
-            const exo = currentExerciseSet[currentIndex];
-            sentenceDisplay.textContent = exo.sentence;
-            correctAnswerForCurrent = exo.correct;
+            currentExercise = currentExerciseSet[currentIndex];
+            sentenceDisplay.textContent = currentExercise.sentence;
 
-            const opts = exo.options;
+            const opts = currentExercise.options;
+            // maybe re-shuffle a bit for freshness
             const shuffledOpts = shuffleArray([...opts]);
 
             optionsContainer.innerHTML = '';
@@ -513,7 +457,7 @@
                 btn.disabled = false;
             });
 
-            feedbackMessage.textContent = '';
+            feedbackMessage.innerHTML = ''; // clear
             nextBtn.disabled = true;
         }
 
@@ -522,23 +466,42 @@
 
             const btn = event.currentTarget;
             const chosen = btn.dataset.det;
-            const correct = correctAnswerForCurrent;
+            const exercise = currentExercise;
+            const correctAnswers = exercise.correct; // array of acceptable answers
 
             isAnswered = true;
             document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
 
-            if (chosen === correct) {
+            // check if chosen is in the list of correct answers
+            if (correctAnswers.includes(chosen)) {
                 btn.classList.add('selected-correct');
-                feedbackMessage.innerHTML = `✅ « ${chosen} » est correct.`;
+                // also highlight any other correct answers? optionally show them as correct too
+                document.querySelectorAll('.det-btn').forEach(b => {
+                    if (correctAnswers.includes(b.dataset.det) && b.dataset.det !== chosen) {
+                        b.classList.add('selected-correct'); // light up other correct options
+                    }
+                });
+                let message = `✅ « ${chosen} » est correct.`;
+                if (exercise.type === 'multi' && correctAnswers.length > 1) {
+                    message = `✅ « ${chosen} » est bon ! (autres possibilités : ${correctAnswers.filter(a => a !== chosen).join(', ')})`;
+                }
+                feedbackMessage.innerHTML = message;
                 correctCount++;
             } else {
                 btn.classList.add('selected-wrong');
+                // show the correct answer(s)
                 document.querySelectorAll('.det-btn').forEach(b => {
-                    if (b.dataset.det === correct) {
+                    if (correctAnswers.includes(b.dataset.det)) {
                         b.classList.add('selected-correct');
                     }
                 });
-                feedbackMessage.innerHTML = `❌ « ${chosen} » n'est pas juste. Le bon déterminant est « ${correct} ».`;
+                let message = `❌ « ${chosen} » n'est pas juste. `;
+                if (correctAnswers.length === 1) {
+                    message += `Le bon déterminant est « ${correctAnswers[0]} ».`;
+                } else {
+                    message += `Les déterminants possibles : ${correctAnswers.join(', ')}.`;
+                }
+                feedbackMessage.innerHTML = message;
                 wrongCount++;
             }
             updateScoreDisplay();
@@ -559,7 +522,7 @@
         }
 
         function resetGame() {
-            currentExerciseSet = pickRandomExercises(30); // 30 sentences, perfect for mobile session
+            currentExerciseSet = getExerciseSet(); // 15 questions mélangées
             currentIndex = 0;
             correctCount = 0;
             wrongCount = 0;
