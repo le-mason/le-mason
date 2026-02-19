@@ -2,619 +2,577 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conjug8 · défi verbes</title>
-    <!-- Google Font & clean base -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🇫🇷 Déterminants possessifs · mobile</title>
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', system-ui, -apple-system, sans-serif;
         }
-
         body {
-            background: linear-gradient(145deg, #f0f3f7 0%, #dee5ed 100%);
             min-height: 100vh;
+            background: linear-gradient(145deg, #f0ebe1 0%, #faf0e0 100%);
             display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            padding: 10px;
         }
-
-        .app-container {
-            max-width: 1000px;
+        .app-card {
+            max-width: 400px;  /* typical iPhone 14 width fits nicely */
             width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            border-radius: 48px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            padding: 36px;
-            border: 1px solid rgba(255,255,255,0.7);
+            background: #fffcf5f0;
+            backdrop-filter: blur(4px);
+            border-radius: 40px 40px 30px 30px;
+            box-shadow: 0 20px 35px -8px #7a5e40, 0 0 0 1px #fad6a8 inset;
+            padding: 22px 18px 28px;
+            margin: 0 auto;
         }
-
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-        }
-
         h1 {
-            font-weight: 700;
             font-size: 1.9rem;
-            color: #1e3b4c;
-            letter-spacing: -0.02em;
-        }
-
-        .badge {
-            background: #2f5a70;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 60px;
             font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
-
-        /* sentence card */
-        .sentence-card {
-            background: white;
-            border-radius: 32px;
-            padding: 36px 32px;
-            margin-bottom: 28px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-            border: 1px solid #edf2f9;
-        }
-
-        .english-sentence {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #1e3f52;
-            margin-bottom: 24px;
-            border-bottom: 2px solid #e2eaf0;
-            padding-bottom: 18px;
-            line-height: 1.3;
-        }
-
-        .french-building {
-            font-size: 2.1rem;
-            font-weight: 600;
+            color: #3f2d12;
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
             gap: 10px;
-            color: #0f2e3f;
+            margin-bottom: 12px;
+            border-bottom: 4px solid #ebc17e;
+            padding-bottom: 12px;
         }
-
-        .blank {
-            display: inline-block;
-            min-width: 180px;
-            background: #f4f9ff;
-            border-radius: 20px;
-            padding: 8px 24px;
-            border: 3px dashed #6f8fa2;
-            color: #1e3b4a;
-            font-weight: 700;
+        h1 span {
+            background: #fde6c4;
+            font-size: 2.1rem;
+            padding: 4px 14px 8px 14px;
+            border-radius: 50px;
+            box-shadow: 0 4px 0 #be8f50;
+        }
+        .question-panel {
+            background: #fffbf5;
+            border-radius: 28px;
+            padding: 10px 8px 10px 8px;
+            margin: 8px 0 12px;
+            border: 2px solid #ebc287;
+            box-shadow: inset 0 2px 6px #ffe6c1;
+        }
+        .sentence {
+            font-size: 2.2rem;   /* slightly smaller for mobile */
+            font-weight: 600;
+            color: #3e2c14;
             text-align: center;
-            transition: all 0.1s;
-            font-size: 1.9rem;
+            line-height: 1.3;
+            background: #fcedd7;
+            padding: 24px 8px;
+            border-radius: 40px;
+            margin-bottom: 3px;
+            box-shadow: 0 5px 0 #ccaa7b;
+            word-break: break-word;
         }
-
-        .blank.filled {
-            background: #e1eff9;
-            border: 3px solid #26648b;
-            border-style: solid;
-            color: #0a4b6e;
+        .options-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 10px;
+            margin: 16px 0 18px;
         }
-
-        .rest-phrase {
-            background: #eef3f8;
-            border-radius: 20px;
-            padding: 8px 20px;
-            font-size: 1.7rem;
+        .det-btn {
+            background: #faf0e0;
+            border: 3px solid #e2c7a3;
+            color: #432f15;
+            font-size: 1.6rem;    /* responsive size */
+            font-weight: 700;
+            min-width: 85px;
+            padding: 14px 4px;
+            border-radius: 50px;
+            box-shadow: 0 4px 0 #b69160, 0 5px 8px #855e33;
+            cursor: pointer;
+            transition: 0.08s linear;
+            text-align: center;
+            flex: 0 1 auto;
+            line-height: 1.2;
+        }
+        .det-btn:hover:not(:disabled) {
+            background: #ffefda;
+            border-color: #c9a26c;
+            transform: scale(0.97);
+            box-shadow: 0 2px 0 #b69160, 0 5px 8px #7b562b;
+        }
+        .det-btn.selected-correct {
+            background: #c5e0b4;
+            border-color: #4f7a2b;
+            box-shadow: 0 4px 0 #2f6015;
+            color: #1e3c08;
+            pointer-events: none;
+        }
+        .det-btn.selected-wrong {
+            background: #f6cfcd;
+            border-color: #ba5a4c;
+            box-shadow: 0 4px 0 #972417;
+            color: #4e1f1a;
+            text-decoration: line-through 2px #a00;
+            pointer-events: none;
+        }
+        .det-btn:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+            filter: grayscale(0.2);
+        }
+        .feedback {
+            background: #faeedb;
+            border-radius: 40px;
+            padding: 16px 18px;
+            margin: 5px 0 18px;
+            font-size: 1.3rem;
             font-weight: 500;
-            color: #2a556b;
+            color: #2b1b09;
+            border-left: 10px solid #deb887;
+            min-height: 65px;
+            display: flex;
+            align-items: center;
         }
-
-        /* action row */
         .action-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 28px;
-            flex-wrap: wrap;
-            gap: 16px;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap; /* allows wrap on very small but we aim to keep in line */
         }
-
-        .feedback {
-            background: #fef9e7;
-            border-radius: 60px;
-            padding: 14px 26px;
-            border-left: 8px solid #ffae42;
-            color: #4a3b1a;
-            font-weight: 500;
-            font-size: 1.05rem;
-            flex: 1;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 14px;
-        }
-
-        .btn {
+        .reset-btn {
+            background: #e7cfb0;
             border: none;
-            background: white;
-            padding: 14px 28px;
-            border-radius: 60px;
+            font-size: 1.3rem;
             font-weight: 600;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: #3f2d15;
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 0 #b18f64;
             cursor: pointer;
-            transition: 0.12s;
-            border: 2px solid #cbd5e1;
-            color: #1e3a4e;
-            box-shadow: 0 3px 0 #b0bec5;
-        }
-
-        .btn:hover {
-            background: #f8fcff;
-            border-color: #7e9eb5;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 0 #9aa9b5;
-        }
-
-        .btn-primary {
-            background: #1d4e67;
-            border-color: #1d4e67;
-            color: white;
-            box-shadow: 0 3px 0 #0d3140;
-        }
-        .btn-primary:hover {
-            background: #256c8a;
-            border-color: #1d5a73;
-            color: white;
-        }
-
-        /* verb grid — clean, no colors, no labels */
-        .toolbox-label {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #4c5c6b;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 18px;
-        }
-
-        .verb-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .verb-btn {
-            border: none;
-            padding: 16px 28px;
-            border-radius: 60px;
-            font-size: 1.4rem;
-            font-weight: 600;
-            background: white;
-            box-shadow: 0 5px 0 #bac8d3, 0 10px 20px rgba(0,0,0,0.05);
-            transition: all 0.06s linear;
-            cursor: pointer;
-            border: 2px solid white;
-            color: #1e2e3f;
+            transition: 0.08s;
+            border: 2px solid #ffe9cf;
+            flex: 1; 
             min-width: 110px;
-            background: #fafdff;
-            border: 2px solid #e2edf2;
+            white-space: nowrap;
         }
-
-        .verb-btn:active {
-            transform: translateY(5px);
-            box-shadow: 0 2px 0 #9aa9b5, 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        .verb-btn.disabled,
-        .verb-btn[disabled] {
-            opacity: 0.4;
+        .reset-btn:active {
             transform: translateY(4px);
-            box-shadow: 0 2px 0 #bac8d3;
+            box-shadow: 0 1px 0 #b18f64;
+        }
+        .next-btn {
+            background: #2f5e3c;
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.4rem;
+            padding: 12px 20px;
+            border-radius: 60px;
+            box-shadow: 0 5px 0 #1b3b24, 0 5px 12px #b2956e;
+            cursor: pointer;
+            transition: 0.08s;
+            border: 2px solid #9fcb8b;
+            flex: 1;
+            min-width: 110px;
+            white-space: nowrap;
+        }
+        .next-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #1b3b24, 0 5px 12px #b2956e;
+        }
+        .next-btn:disabled {
+            opacity: 0.5;
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1b3b24;
             pointer-events: none;
         }
 
+        /* score container placed between buttons */
+        .score-middle {
+            display: flex;
+            gap: 12px;
+            background: #fff4e3;
+            padding: 6px 18px;
+            border-radius: 60px;
+            border: 2px solid #e0b780;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #3d2a10;
+            white-space: nowrap;
+            align-items: center;
+            justify-content: center;
+            flex: 0 1 auto;
+        }
+        .score-middle div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .correct-badge {
+            background: #a7c89b;
+            border-radius: 40px;
+            padding: 4px 12px;
+            color: #1c4010;
+            border: 2px solid #5a8c3a;
+        }
+        .wrong-badge {
+            background: #f3c2bc;
+            border-radius: 40px;
+            padding: 4px 12px;
+            color: #661f14;
+            border: 2px solid #bc5f4c;
+        }
         .footer-note {
-            margin-top: 30px;
-            color: #5a6e7c;
-            font-size: 0.85rem;
             text-align: center;
-            border-top: 1px solid #d0dce5;
-            padding-top: 22px;
+            margin-top: 22px;
+            color: #987b58;
+            font-size: 1rem;
+            border-top: 1px solid #eddbbd;
+            padding-top: 16px;
         }
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="app-header">
-        <h1>⚡ Conjug8 · choisis la forme</h1>
-        <span class="badge">verbes · mix quotidien</span>
+<div class="app-card">
+    <h1>
+        <span>🧑‍🏫</span>
+        Possessifs
+    </h1>
+
+    <!-- sentence area -->
+    <div class="question-panel">
+        <div class="sentence" id="sentenceDisplay">_____ chat est mignon.</div>
     </div>
 
-    <!-- ======= SENTENCE ZONE ======= -->
-    <div class="sentence-card">
-        <div class="english-sentence" id="englishSentence">I must go to the store.</div>
-        <div class="french-building">
-            <span id="subjectPart">Je</span>
-            <span id="blankSpace" class="blank">______</span>
-            <span id="restOfSentence" class="rest-phrase">aller au magasin.</span>
+    <!-- ANSWER BUTTONS grid -->
+    <div id="optionsContainer" class="options-grid">
+        <!-- injected by js -->
+    </div>
+
+    <!-- feedback area (no icon) -->
+    <div class="feedback" id="feedbackArea">
+        <span id="feedbackMessage"></span>
+    </div>
+
+    <!-- bottom row : Rejouer | score counters | Suivant  (score in the middle) -->
+    <div class="action-row">
+        <button class="reset-btn" id="resetBtn" aria-label="rejouer">↻ Rejouer</button>
+        
+        <!-- score moved here between buttons -->
+        <div class="score-middle">
+            <div class="correct-badge">✔ <span id="correctCount">0</span></div>
+            <div class="wrong-badge">✘ <span id="wrongCount">0</span></div>
         </div>
 
-        <!-- feedback + next & reset (no extra "nouvelle phrase" text) -->
-        <div class="action-row">
-            <div class="feedback" id="feedbackMessage">👉 Trouve la bonne conjugaison.</div>
-            <div class="btn-group">
-                <button id="resetBtn" class="btn">↻ Réinitialiser</button>
-                <button id="nextBtn" class="btn btn-primary">⏩ Suivant</button>
-            </div>
-        </div>
+        <button class="next-btn" id="nextBtn">Suivant ➔</button>
     </div>
-
-    <!-- ======= VERB BUTTONS – NO SUBJECT, NO COLOR ======= -->
-    <div class="toolbox-label">🛠️ appuie sur le verbe correct</div>
-    <div id="verbContainer" class="verb-grid">
-        <!-- injected: includes multiple conjugated forms of the same verb for challenge -->
-    </div>
-
-    <div class="footer-note">
-        🔤 Attention : plusieurs formes du même verbe sont présentes. Choisis celle qui correspond au sujet.
-    </div>
+    <div class="footer-note">✪ genre · nombre · voyelle ✪</div>
 </div>
 
 <script>
-    // ---------- LARGE BANK OF EVERYDAY SENTENCES ----------
-    const SENTENCE_BANK = [
-        // devoir (must)
-        { english: "I must go to the store.", subject: "Je", rest: "aller au magasin.", correct: "dois" },
-        { english: "You must study.", subject: "Tu", rest: "étudier.", correct: "dois" },
-        { english: "She has to call her mother.", subject: "Elle", rest: "appeler sa mère.", correct: "doit" },
-        { english: "We have to leave now.", subject: "Nous", rest: "partir maintenant.", correct: "devons" },
-        { english: "You (formal) must arrive on time.", subject: "Vous", rest: "arriver à l'heure.", correct: "devez" },
-        { english: "They must finish the project.", subject: "Ils", rest: "finir le projet.", correct: "doivent" },
-        
-        // pouvoir (can)
-        { english: "I can help you.", subject: "Je", rest: "t'aider.", correct: "peux" },
-        { english: "Can you open the window?", subject: "Tu", rest: "ouvrir la fenêtre ?", correct: "peux" },
-        { english: "He can speak three languages.", subject: "Il", rest: "parler trois langues.", correct: "peut" },
-        { english: "We can come tomorrow.", subject: "Nous", rest: "venir demain.", correct: "pouvons" },
-        { english: "You can take a seat.", subject: "Vous", rest: "vous asseoir.", correct: "pouvez" },
-        { english: "They can sleep here.", subject: "Ils", rest: "dormir ici.", correct: "peuvent" },
-        
-        // vouloir (want)
-        { english: "I want coffee.", subject: "Je", rest: "du café.", correct: "veux" },
-        { english: "You want a croissant.", subject: "Tu", rest: "un croissant.", correct: "veux" },
-        { english: "She wants to leave.", subject: "Elle", rest: "partir.", correct: "veut" },
-        { english: "We want to eat.", subject: "Nous", rest: "manger.", correct: "voulons" },
-        { english: "You want water?", subject: "Vous", rest: "de l'eau ?", correct: "voulez" },
-        { english: "They want a break.", subject: "Ils", rest: "une pause.", correct: "veulent" },
-        
-        // aller (go)
-        { english: "I am going to Paris.", subject: "Je", rest: "à Paris.", correct: "vais" },
-        { english: "You are going to school.", subject: "Tu", rest: "à l'école.", correct: "vas" },
-        { english: "She is going to work.", subject: "Elle", rest: "au travail.", correct: "va" },
-        { english: "We are going to the beach.", subject: "Nous", rest: "à la plage.", correct: "allons" },
-        { english: "You are going to the museum.", subject: "Vous", rest: "au musée.", correct: "allez" },
-        { english: "They are going to the pool.", subject: "Ils", rest: "à la piscine.", correct: "vont" },
-        
-        // être (be)
-        { english: "I am tired.", subject: "Je", rest: "fatigué.", correct: "suis" },
-        { english: "You are late.", subject: "Tu", rest: "en retard.", correct: "es" },
-        { english: "She is at home.", subject: "Elle", rest: "chez elle.", correct: "est" },
-        { english: "We are happy.", subject: "Nous", rest: "heureux.", correct: "sommes" },
-        { english: "You are kind.", subject: "Vous", rest: "gentil.", correct: "êtes" },
-        { english: "They are students.", subject: "Ils", rest: "étudiants.", correct: "sont" },
-        
-        // avoir (have)
-        { english: "I am hungry.", subject: "J'", rest: "faim.", correct: "ai" },
-        { english: "You are thirsty.", subject: "Tu", rest: "soif.", correct: "as" },
-        { english: "She is 15 years old.", subject: "Elle", rest: "quinze ans.", correct: "a" },
-        { english: "We are lucky.", subject: "Nous", rest: "de la chance.", correct: "avons" },
-        { english: "You have a dog.", subject: "Vous", rest: "un chien.", correct: "avez" },
-        { english: "They have a car.", subject: "Ils", rest: "une voiture.", correct: "ont" },
-        
-        // -ER verbs (present)
-        { english: "I work today.", subject: "Je", rest: "aujourd'hui.", correct: "travaille" },
-        { english: "You sing well.", subject: "Tu", rest: "bien.", correct: "chantes" },
-        { english: "He speaks French.", subject: "Il", rest: "français.", correct: "parle" },
-        { english: "We eat pasta.", subject: "Nous", rest: "des pâtes.", correct: "mangeons" },
-        { english: "You sell books.", subject: "Vous", rest: "des livres.", correct: "vendez" },
-        { english: "They play soccer.", subject: "Ils", rest: "au foot.", correct: "jouent" },
-        
-        // passé composé (avoir auxiliary)
-        { english: "Yesterday I ate ice cream.", subject: "J'", rest: "mangé la glace.", correct: "ai" },
-        { english: "She watched a film.", subject: "Elle", rest: "regardé un film.", correct: "a" },
-        { english: "We finished the work.", subject: "Nous", rest: "fini le travail.", correct: "avons" },
-        
-        // passé composé (être auxiliary)
-        { english: "She arrived at 8 o'clock.", subject: "Elle", rest: "arrivée à huit heures.", correct: "est" },
-        { english: "We went to the museum.", subject: "Nous", rest: "allés au musée.", correct: "sommes" },
-        { english: "They stayed home.", subject: "Elles", rest: "restées à la maison.", correct: "sont" },
-        
-        // futur proche
-        { english: "Tomorrow I am playing basketball.", subject: "Je", rest: "jouer au basket.", correct: "vais" },
-        { english: "Tonight we are watching a film.", subject: "Nous", rest: "regarder un film.", correct: "allons" },
-        { english: "They are visiting Paris.", subject: "Ils", rest: "visiter Paris.", correct: "vont" },
-    ];
+    (function() {
+        // ---------- EXTENDED EXERCISE BANK : at least 10 per possessif ----------
+        const fullBank = [
+            // mon (masc sing / before vowel)
+            { sentence: "_____ chat est mignon.", correct: "mon" },
+            { sentence: "_____ ordinateur est lent.", correct: "mon" },
+            { sentence: "_____ frère s'appelle Paul.", correct: "mon" },
+            { sentence: "_____ stylo ne écrit plus.", correct: "mon" },
+            { sentence: "_____ sac est trop lourd.", correct: "mon" },
+            { sentence: "_____ ami vient de Paris.", correct: "mon" },
+            { sentence: "_____ appartement est petit.", correct: "mon" },
+            { sentence: "_____ vélo est cassé.", correct: "mon" },
+            { sentence: "_____ bureau est en désordre.", correct: "mon" },
+            { sentence: "_____ chien s'appelle Médor.", correct: "mon" },
+            { sentence: "_____ effort a payé.", correct: "mon" },
+            // ma (fém sing)
+            { sentence: "_____ sœur est brésilienne.", correct: "ma" },
+            { sentence: "_____ voiture est en panne.", correct: "ma" },
+            { sentence: "_____ maison est blanche.", correct: "ma" },
+            { sentence: "_____ chambre est rangée.", correct: "ma" },
+            { sentence: "_____ famille est nombreuse.", correct: "ma" },
+            { sentence: "_____ école est fermée.", correct: "ma" },
+            { sentence: "_____ trousse est perdue.", correct: "ma" },
+            { sentence: "_____ montre est élégante.", correct: "ma" },
+            { sentence: "_____ chaise est inconfortable.", correct: "ma" },
+            { sentence: "_____ tablette est déchargée.", correct: "ma" },
+            // mes (pluriel)
+            { sentence: "J'aime _____ chiens.", correct: "mes" },
+            { sentence: "_____ cousins sont drôles.", correct: "mes" },
+            { sentence: "_____ affaires sont dans le couloir.", correct: "mes" },
+            { sentence: "_____ chaussures sont neuves.", correct: "mes" },
+            { sentence: "_____ devoirs sont finis.", correct: "mes" },
+            { sentence: "_____ clés ont disparu.", correct: "mes" },
+            { sentence: "_____ amis arrivent demain.", correct: "mes" },
+            { sentence: "_____ livres préférés sont ici.", correct: "mes" },
+            { sentence: "_____ lunettes sont sales.", correct: "mes" },
+            { sentence: "_____ idées sont intéressantes.", correct: "mes" },
+            // ton (masc sing)
+            { sentence: "_____ père est boulanger.", correct: "ton" },
+            { sentence: "_____ cahier est rouge.", correct: "ton" },
+            { sentence: "_____ téléphone sonne.", correct: "ton" },
+            { sentence: "_____ bureau est en bois.", correct: "ton" },
+            { sentence: "_____ avis compte beaucoup.", correct: "ton" },
+            { sentence: "_____ gâteau est délicieux.", correct: "ton" },
+            { sentence: "_____ exercice est difficile.", correct: "ton" },
+            { sentence: "_____ jardin est fleuri.", correct: "ton" },
+            { sentence: "_____ cousin est musicien.", correct: "ton" },
+            { sentence: "_____ animal est timide.", correct: "ton" },
+            // ta (fém sing)
+            { sentence: "_____ voiture est rouge.", correct: "ta" },
+            { sentence: "_____ trousse est vide.", correct: "ta" },
+            { sentence: "_____ réponse est correcte.", correct: "ta" },
+            { sentence: "_____ chambre est propre.", correct: "ta" },
+            { sentence: "_____ guitare est accordée.", correct: "ta" },
+            { sentence: "_____ chemise est froissée.", correct: "ta" },
+            { sentence: "_____ famille est accueillante.", correct: "ta" },
+            { sentence: "_____ écharpe est douce.", correct: "ta" },
+            { sentence: "_____ valise est lourde.", correct: "ta" },
+            { sentence: "_____ idée est géniale.", correct: "ta" },
+            // son (masc sing / voyelle)
+            { sentence: "Il parle avec _____ frère.", correct: "son" },
+            { sentence: "_____ ami s'appelle Luc.", correct: "son" },
+            { sentence: "_____ ordinateur est rapide.", correct: "son" },
+            { sentence: "_____ stylo est bleu.", correct: "son" },
+            { sentence: "_____ père est ingénieur.", correct: "son" },
+            { sentence: "_____ lit est défait.", correct: "son" },
+            { sentence: "_____ travail est fatiguant.", correct: "son" },
+            { sentence: "_____ cœur bat vite.", correct: "son" },
+            { sentence: "_____ appartement est spacieux.", correct: "son" },
+            { sentence: "_____ chien aboie beaucoup.", correct: "son" },
+            // sa (fém sing)
+            { sentence: "_____ sœur est artiste.", correct: "sa" },
+            { sentence: "_____ voiture est garée.", correct: "sa" },
+            { sentence: "_____ maison est ancienne.", correct: "sa" },
+            { sentence: "_____ chambre est colorée.", correct: "sa" },
+            { sentence: "_____ guitare est acoustique.", correct: "sa" },
+            { sentence: "_____ mère est professeur.", correct: "sa" },
+            { sentence: "_____ robe est longue.", correct: "sa" },
+            { sentence: "_____ famille est fière.", correct: "sa" },
+            { sentence: "_____ école est réputée.", correct: "sa" },
+            { sentence: "_____ idée a marché.", correct: "sa" },
+            // ses (pluriel)
+            { sentence: "_____ livres sont neufs.", correct: "ses" },
+            { sentence: "_____ cousins habitent Nantes.", correct: "ses" },
+            { sentence: "_____ affaires sont partout.", correct: "ses" },
+            { sentence: "_____ chaussures sont cirées.", correct: "ses" },
+            { sentence: "_____ clés sont sur la table.", correct: "ses" },
+            { sentence: "_____ amis l'attendent.", correct: "ses" },
+            { sentence: "_____ idées sont brillantes.", correct: "ses" },
+            { sentence: "_____ notes sont excellentes.", correct: "ses" },
+            { sentence: "_____ parents sont gentils.", correct: "ses" },
+            { sentence: "_____ dessins sont colorés.", correct: "ses" },
+            // notre (sing)
+            { sentence: "_____ maison est confortable.", correct: "notre" },
+            { sentence: "_____ voiture est propre.", correct: "notre" },
+            { sentence: "_____ chien est affectueux.", correct: "notre" },
+            { sentence: "_____ professeur est sympa.", correct: "notre" },
+            { sentence: "_____ école est moderne.", correct: "notre" },
+            { sentence: "_____ jardin fleurit.", correct: "notre" },
+            { sentence: "_____ pays est beau.", correct: "notre" },
+            { sentence: "_____ équipe a gagné.", correct: "notre" },
+            { sentence: "_____ appartement est calme.", correct: "notre" },
+            { sentence: "_____ projet est ambitieux.", correct: "notre" },
+            // nos (pluriel)
+            { sentence: "_____ parents voyagent.", correct: "nos" },
+            { sentence: "_____ amis arrivent.", correct: "nos" },
+            { sentence: "_____ affaires sont rangées.", correct: "nos" },
+            { sentence: "_____ voisins sont bruyants.", correct: "nos" },
+            { sentence: "_____ devoirs sont longs.", correct: "nos" },
+            { sentence: "_____ idées diffèrent.", correct: "nos" },
+            { sentence: "_____ livres sont ouverts.", correct: "nos" },
+            { sentence: "_____ chaussures sont mouillées.", correct: "nos" },
+            { sentence: "_____ vacances commencent.", correct: "nos" },
+            { sentence: "_____ réunions sont courtes.", correct: "nos" },
+            // votre (sing)
+            { sentence: "_____ opinion compte.", correct: "votre" },
+            { sentence: "_____ voiture est rapide.", correct: "votre" },
+            { sentence: "_____ maison est belle.", correct: "votre" },
+            { sentence: "_____ chien est bruyant.", correct: "votre" },
+            { sentence: "_____ professeur explique bien.", correct: "votre" },
+            { sentence: "_____ jardin est entretenu.", correct: "votre" },
+            { sentence: "_____ frère travaille ici.", correct: "votre" },
+            { sentence: "_____ idée est bonne.", correct: "votre" },
+            { sentence: "_____ colis est arrivé.", correct: "votre" },
+            { sentence: "_____ sac est lourd.", correct: "votre" },
+            // vos (pluriel)
+            { sentence: "_____ enfants jouent dehors.", correct: "vos" },
+            { sentence: "_____ affaires sont prêtes.", correct: "vos" },
+            { sentence: "_____ parents sont gentils.", correct: "vos" },
+            { sentence: "_____ amis sont là.", correct: "vos" },
+            { sentence: "_____ clés sont sur la table.", correct: "vos" },
+            { sentence: "_____ idées sont intéressantes.", correct: "vos" },
+            { sentence: "_____ valises sont pesées.", correct: "vos" },
+            { sentence: "_____ chaussures brillent.", correct: "vos" },
+            { sentence: "_____ réponses sont justes.", correct: "vos" },
+            { sentence: "_____ projets aboutissent.", correct: "vos" },
+            // leur (sing)
+            { sentence: "_____ maison est grande.", correct: "leur" },
+            { sentence: "_____ chien est calme.", correct: "leur" },
+            { sentence: "_____ fils est médecin.", correct: "leur" },
+            { sentence: "_____ voiture est neuve.", correct: "leur" },
+            { sentence: "_____ jardin est fleuri.", correct: "leur" },
+            { sentence: "_____ professeur est strict.", correct: "leur" },
+            { sentence: "_____ idée a fonctionné.", correct: "leur" },
+            { sentence: "_____ pays est lointain.", correct: "leur" },
+            { sentence: "_____ père est à la retraite.", correct: "leur" },
+            { sentence: "_____ projet a réussi.", correct: "leur" },
+            // leurs (pluriel)
+            { sentence: "_____ enfants sont sages.", correct: "leurs" },
+            { sentence: "_____ affaires sont dans la cour.", correct: "leurs" },
+            { sentence: "_____ livres sont neufs.", correct: "leurs" },
+            { sentence: "_____ idées sont différentes.", correct: "leurs" },
+            { sentence: "_____ parents sont fiers.", correct: "leurs" },
+            { sentence: "_____ chaussures sont usées.", correct: "leurs" },
+            { sentence: "_____ amis les attendent.", correct: "leurs" },
+            { sentence: "_____ valises sont prêtes.", correct: "leurs" },
+            { sentence: "_____ réponses sont incorrectes.", correct: "leurs" },
+            { sentence: "_____ projets aboutissent.", correct: "leurs" }
+        ];
 
-    // ---------- STATE ----------
-    let currentSentence = null;
-    let currentBlankFilled = false;
-    let selectedVerb = null;
-
-    // ---------- DOM elements ----------
-    const englishEl = document.getElementById('englishSentence');
-    const subjectEl = document.getElementById('subjectPart');
-    const blankEl = document.getElementById('blankSpace');
-    const restEl = document.getElementById('restOfSentence');
-    const feedbackEl = document.getElementById('feedbackMessage');
-    const verbContainer = document.getElementById('verbContainer');
-    const resetBtn = document.getElementById('resetBtn');
-    const nextBtn = document.getElementById('nextBtn');
-
-    // ---------- CHALLENGE: generate verb list with MULTIPLE conjugated forms of the SAME verb ----------
-    function generateTrickyOptions(correctVerb, subject) {
-        // Step 1: Identify the base verb from the correct conjugation
-        let infinitive = "";
-        if (correctVerb.endsWith("e") && !(correctVerb === "ai" || correctVerb === "suis" || correctVerb === "vais" || correctVerb === "peux" || correctVerb === "veux")) infinitive = "er"; 
-        // rough mapping – we don't need exact infinitive; we just want to include other persons of the same verb
-        
-        // Build a rich pool of conjugations – we deliberately include many forms of the same verb
-        const verbFamilies = {
-            // devoir
-            "dois": ["dois", "doit", "devons", "devez", "doivent"],
-            "doit": ["dois", "doit", "devons", "devez", "doivent"],
-            "devons": ["dois", "doit", "devons", "devez", "doivent"],
-            "devez": ["dois", "doit", "devons", "devez", "doivent"],
-            "doivent": ["dois", "doit", "devons", "devez", "doivent"],
-            // pouvoir
-            "peux": ["peux", "peut", "pouvons", "pouvez", "peuvent"],
-            "peut": ["peux", "peut", "pouvons", "pouvez", "peuvent"],
-            "pouvons": ["peux", "peut", "pouvons", "pouvez", "peuvent"],
-            "pouvez": ["peux", "peut", "pouvons", "pouvez", "peuvent"],
-            "peuvent": ["peux", "peut", "pouvons", "pouvez", "peuvent"],
-            // vouloir
-            "veux": ["veux", "veut", "voulons", "voulez", "veulent"],
-            "veut": ["veux", "veut", "voulons", "voulez", "veulent"],
-            "voulons": ["veux", "veut", "voulons", "voulez", "veulent"],
-            "voulez": ["veux", "veut", "voulons", "voulez", "veulent"],
-            "veulent": ["veux", "veut", "voulons", "voulez", "veulent"],
-            // aller
-            "vais": ["vais", "vas", "va", "allons", "allez", "vont"],
-            "vas": ["vais", "vas", "va", "allons", "allez", "vont"],
-            "va": ["vais", "vas", "va", "allons", "allez", "vont"],
-            "allons": ["vais", "vas", "va", "allons", "allez", "vont"],
-            "allez": ["vais", "vas", "va", "allons", "allez", "vont"],
-            "vont": ["vais", "vas", "va", "allons", "allez", "vont"],
-            // être
-            "suis": ["suis", "es", "est", "sommes", "êtes", "sont"],
-            "es": ["suis", "es", "est", "sommes", "êtes", "sont"],
-            "est": ["suis", "es", "est", "sommes", "êtes", "sont"],
-            "sommes": ["suis", "es", "est", "sommes", "êtes", "sont"],
-            "êtes": ["suis", "es", "est", "sommes", "êtes", "sont"],
-            "sont": ["suis", "es", "est", "sommes", "êtes", "sont"],
-            // avoir
-            "ai": ["ai", "as", "a", "avons", "avez", "ont"],
-            "as": ["ai", "as", "a", "avons", "avez", "ont"],
-            "a": ["ai", "as", "a", "avons", "avez", "ont"],
-            "avons": ["ai", "as", "a", "avons", "avez", "ont"],
-            "avez": ["ai", "as", "a", "avons", "avez", "ont"],
-            "ont": ["ai", "as", "a", "avons", "avez", "ont"],
-            // -ER verbs (manger, travailler, chanter, parler, jouer, vendre etc)
-            "mange": ["mange", "manges", "mangeons", "mangez", "mangent"],
-            "manges": ["mange", "manges", "mangeons", "mangez", "mangent"],
-            "mangeons": ["mange", "manges", "mangeons", "mangez", "mangent"],
-            "mangez": ["mange", "manges", "mangeons", "mangez", "mangent"],
-            "mangent": ["mange", "manges", "mangeons", "mangez", "mangent"],
-            "travaille": ["travaille", "travailles", "travaillons", "travaillez", "travaillent"],
-            "travailles": ["travaille", "travailles", "travaillons", "travaillez", "travaillent"],
-            "travaillons": ["travaille", "travailles", "travaillons", "travaillez", "travaillent"],
-            "travaillez": ["travaille", "travailles", "travaillons", "travaillez", "travaillent"],
-            "travaillent": ["travaille", "travailles", "travaillons", "travaillez", "travaillent"],
-            "chante": ["chante", "chantes", "chantons", "chantez", "chantent"],
-            "chantes": ["chante", "chantes", "chantons", "chantez", "chantent"],
-            "parle": ["parle", "parles", "parlons", "parlez", "parlent"],
-            "parles": ["parle", "parles", "parlons", "parlez", "parlent"],
-            "joue": ["joue", "joues", "jouons", "jouez", "jouent"],
-            "joues": ["joue", "joues", "jouons", "jouez", "jouent"],
-            "jouent": ["joue", "joues", "jouons", "jouez", "jouent"],
-            "vendez": ["vends", "vends", "vend", "vendons", "vendez", "vendent"], 
-        };
-
-        // default fallback if verb not in mapping: still include a variety of common verbs
-        let candidateOptions = [];
-        if (verbFamilies[correctVerb]) {
-            candidateOptions = [...verbFamilies[correctVerb]];
-        } else {
-            // fallback: include correct + other common forms
-            candidateOptions = [correctVerb, "fais", "fait", "dis", "dit", "mets", "met"];
-        }
-
-        // Add "distractor" verbs from other families to make it challenging but not impossible
-        let distractors = ["suis", "es", "est", "sommes", "êtes", "sont", "ai", "as", "a", "avons", "avez", "ont", "vais", "vas", "va", "allons", "allez", "vont", "dois", "doit", "devons", "devez", "doivent", "peux", "peut", "pouvons", "pouvez", "peuvent", "veux", "veut", "voulons", "voulez", "veulent", "mange", "manges", "mangeons", "mangez", "mangent", "travaille", "jouent"];
-        
-        // Shuffle distractors and pick 3-4 random ones
-        let shuffledDistractors = shuffleArray([...distractors]);
-        let selectedDistractors = shuffledDistractors.filter(v => !candidateOptions.includes(v) && v !== correctVerb).slice(0, 4);
-        
-        // Combine: family forms (4-6 verbs) + random distractors + always keep correct
-        let combined = [...candidateOptions, ...selectedDistractors];
-        combined = [...new Set(combined)]; // remove duplicates
-        
-        // Ensure correct verb is always present
-        if (!combined.includes(correctVerb)) combined.push(correctVerb);
-        
-        // Shuffle heavily so the correct answer isn't obvious
-        combined = shuffleArray(combined);
-        
-        // Limit to 10-12 buttons for clean layout
-        if (combined.length > 12) combined = combined.slice(0, 12);
-        
-        return combined;
-    }
-
-    // ---------- Fisher–Yates shuffle ----------
-    function shuffleArray(arr) {
-        const copy = [...arr];
-        for (let i = copy.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [copy[i], copy[j]] = [copy[j], copy[i]];
-        }
-        return copy;
-    }
-
-    // ---------- render verb buttons – no subject, no color, but multiple tricky forms ----------
-    function renderVerbButtons() {
-        if (!currentSentence) return;
-        
-        const correct = currentSentence.correct;
-        const options = generateTrickyOptions(correct, currentSentence.subject);
-        
-        let html = '';
-        options.forEach(verb => {
-            const disabledAttr = (currentBlankFilled && selectedVerb !== verb) ? 'disabled' : '';
-            const disabledClass = (currentBlankFilled && selectedVerb !== verb) ? 'disabled' : '';
-            html += `<button class="verb-btn ${disabledClass}" data-verb="${verb}" ${disabledAttr}>
-                        ${verb}
-                    </button>`;
-        });
-        verbContainer.innerHTML = html;
-    }
-
-    // ---------- update UI with current sentence ----------
-    function updateSentenceDisplay() {
-        if (!currentSentence) return;
-        englishEl.textContent = currentSentence.english;
-        subjectEl.textContent = currentSentence.subject;
-        restEl.textContent = currentSentence.rest;
-        
-        if (currentBlankFilled && selectedVerb) {
-            blankEl.textContent = selectedVerb;
-            blankEl.classList.add('filled');
-        } else {
-            blankEl.textContent = '______';
-            blankEl.classList.remove('filled');
-        }
-    }
-
-    // ---------- feedback ----------
-    function setFeedback(message, isCorrect = false) {
-        feedbackEl.textContent = message;
-        if (isCorrect) {
-            feedbackEl.style.background = '#e6f4e6';
-            feedbackEl.style.borderLeftColor = '#2b7a4b';
-        } else {
-            feedbackEl.style.background = '#fef9e7';
-            feedbackEl.style.borderLeftColor = '#ffae42';
-        }
-    }
-
-    // ---------- reset current sentence (clear blank) ----------
-    function resetCurrent() {
-        currentBlankFilled = false;
-        selectedVerb = null;
-        updateSentenceDisplay();
-        renderVerbButtons();
-        setFeedback('👉 Trouve la bonne conjugaison.');
-    }
-
-    // ---------- load a new random sentence ----------
-    function loadRandomSentence() {
-        currentSentence = getRandomSentence();
-        currentBlankFilled = false;
-        selectedVerb = null;
-        updateSentenceDisplay();
-        renderVerbButtons();
-        // No extra "Nouvelle phrase" text – just neutral prompt
-        setFeedback('👉 Choisis la forme qui correspond au sujet.');
-    }
-
-    // ---------- get random sentence from bank ----------
-    function getRandomSentence() {
-        const randomIndex = Math.floor(Math.random() * SENTENCE_BANK.length);
-        return { ...SENTENCE_BANK[randomIndex] };
-    }
-
-    // ---------- handle verb click (event delegation) ----------
-    function handleVerbClick(e) {
-        const btn = e.target.closest('.verb-btn');
-        if (!btn) return;
-        if (btn.classList.contains('disabled') || btn.hasAttribute('disabled')) return;
-        if (!currentSentence) return;
-        
-        const verb = btn.dataset.verb;
-        const isCorrect = (verb === currentSentence.correct);
-        
-        // fill blank
-        currentBlankFilled = true;
-        selectedVerb = verb;
-        blankEl.textContent = verb;
-        blankEl.classList.add('filled');
-        
-        // disable all buttons except the selected one
-        const allBtns = document.querySelectorAll('.verb-btn');
-        allBtns.forEach(b => {
-            if (b.dataset.verb !== selectedVerb) {
-                b.classList.add('disabled');
-                b.setAttribute('disabled', 'disabled');
-            } else {
-                b.classList.remove('disabled');
-                b.removeAttribute('disabled');
+        // add an 'options' field to each item: 4 random distractors + correct answer, shuffled
+        function enrichExercise(ex) {
+            const allPoss = ["mon","ma","mes","ton","ta","tes","son","sa","ses","notre","nos","votre","vos","leur","leurs"];
+            let wrongs = [];
+            const others = allPoss.filter(p => p !== ex.correct);
+            const shuffled = [...others].sort(() => 0.5 - Math.random());
+            for (let i=0; i<4; i++) {
+                if (shuffled[i]) wrongs.push(shuffled[i]);
             }
-        });
-        
-        // feedback
-        if (isCorrect) {
-            setFeedback('✅ Parfait ! Bonne conjugaison.', true);
-        } else {
-            setFeedback(`❌ « ${verb} » ne convient pas pour « ${currentSentence.subject} ». Essaie encore.`, false);
+            let wrongSet = new Set(wrongs);
+            while (wrongSet.size < 4) {
+                let extra = others[Math.floor(Math.random() * others.length)];
+                if (extra !== ex.correct) wrongSet.add(extra);
+            }
+            let options = [ex.correct, ...Array.from(wrongSet)];
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            return { ...ex, options };
         }
-    }
 
-    // ---------- INIT ----------
-    function init() {
-        currentSentence = getRandomSentence();
-        currentBlankFilled = false;
-        selectedVerb = null;
-        updateSentenceDisplay();
-        renderVerbButtons();
-        setFeedback('👉 Trouve la bonne conjugaison.');
-        
-        // event listeners
-        verbContainer.addEventListener('click', handleVerbClick);
-        resetBtn.addEventListener('click', resetCurrent);
-        nextBtn.addEventListener('click', loadRandomSentence);
-    }
+        const exerciseBank = fullBank.map(ex => enrichExercise(ex));
 
-    init();
+        // ---- state ----
+        let currentExerciseSet = [];
+        let currentIndex = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let isAnswered = false;
+        let correctAnswerForCurrent = '';
+
+        // DOM elements
+        const sentenceDisplay = document.getElementById('sentenceDisplay');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        const correctSpan = document.getElementById('correctCount');
+        const wrongSpan = document.getElementById('wrongCount');
+        const nextBtn = document.getElementById('nextBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function pickRandomExercises(count = 35) { // slightly fewer for mobile variety
+            const shuffled = shuffleArray([...exerciseBank]);
+            return shuffled.slice(0, count);
+        }
+
+        function updateScoreDisplay() {
+            correctSpan.textContent = correctCount;
+            wrongSpan.textContent = wrongCount;
+        }
+
+        function renderExercise() {
+            if (!currentExerciseSet.length || currentIndex >= currentExerciseSet.length) return;
+
+            const exo = currentExerciseSet[currentIndex];
+            sentenceDisplay.textContent = exo.sentence;
+            correctAnswerForCurrent = exo.correct;
+
+            const opts = exo.options;
+            const shuffledOpts = shuffleArray([...opts]);
+
+            optionsContainer.innerHTML = '';
+
+            shuffledOpts.forEach(det => {
+                const btn = document.createElement('div');
+                btn.className = 'det-btn';
+                btn.textContent = det;
+                btn.dataset.det = det;
+                btn.addEventListener('click', onOptionClick);
+                optionsContainer.appendChild(btn);
+            });
+
+            isAnswered = false;
+            document.querySelectorAll('.det-btn').forEach(btn => {
+                btn.classList.remove('selected-correct', 'selected-wrong');
+                btn.disabled = false;
+            });
+
+            feedbackMessage.textContent = '';
+            nextBtn.disabled = true;
+        }
+
+        function onOptionClick(event) {
+            if (isAnswered) return;
+
+            const btn = event.currentTarget;
+            const chosen = btn.dataset.det;
+            const correct = correctAnswerForCurrent;
+
+            isAnswered = true;
+            document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
+
+            if (chosen === correct) {
+                btn.classList.add('selected-correct');
+                feedbackMessage.innerHTML = `✅ « ${chosen} » est correct.`;
+                correctCount++;
+            } else {
+                btn.classList.add('selected-wrong');
+                document.querySelectorAll('.det-btn').forEach(b => {
+                    if (b.dataset.det === correct) {
+                        b.classList.add('selected-correct');
+                    }
+                });
+                feedbackMessage.innerHTML = `❌ « ${chosen} » n'est pas juste. Le bon déterminant est « ${correct} ».`;
+                wrongCount++;
+            }
+            updateScoreDisplay();
+            nextBtn.disabled = false;
+        }
+
+        function goToNext() {
+            if (!isAnswered) return;
+
+            if (currentIndex + 1 < currentExerciseSet.length) {
+                currentIndex++;
+                renderExercise();
+            } else {
+                feedbackMessage.innerHTML = '🎉 Série terminée ! Clique sur "Rejouer" pour une nouvelle série.';
+                nextBtn.disabled = true;
+                document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
+            }
+        }
+
+        function resetGame() {
+            currentExerciseSet = pickRandomExercises(30); // 30 sentences, perfect for mobile session
+            currentIndex = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            isAnswered = false;
+            updateScoreDisplay();
+            renderExercise();
+        }
+
+        nextBtn.addEventListener('click', goToNext);
+        resetBtn.addEventListener('click', resetGame);
+
+        resetGame();
+    })();
 </script>
-
-<style>
-    .verb-btn {
-        background: white;
-        border: 2px solid #dae6ed;
-    }
-    .verb-btn:hover:not(.disabled):not([disabled]) {
-        background: #f0f7fc;
-        border-color: #94b5c9;
-    }
-    .btn-group .btn {
-        transition: all 0.1s;
-    }
-</style>
-
 </body>
 </html>
