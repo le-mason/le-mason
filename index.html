@@ -19,12 +19,6 @@
             padding: 10px;
             transition: background-color 3s ease;
         }
-        body.flash-green {
-            background: #c5e0b4 !important;
-        }
-        body.flash-red {
-            background: #f6cfcd !important;
-        }
         .app-card {
             max-width: 420px;
             width: 100%;
@@ -34,6 +28,15 @@
             box-shadow: 0 20px 35px -8px #7a5e40, 0 0 0 1px #fad6a8 inset;
             padding: 20px 16px 26px;
             margin: 0 auto;
+            transition: background-color 0.8s ease, box-shadow 0.8s ease;
+        }
+        .app-card.flash-green {
+            background-color: #c5e0b4 !important;
+            box-shadow: 0 20px 35px -8px #2f6015, 0 0 0 3px #4f7a2b inset !important;
+        }
+        .app-card.flash-red {
+            background-color: #f6cfcd !important;
+            box-shadow: 0 20px 35px -8px #972417, 0 0 0 3px #ba5a4c inset !important;
         }
         h1 {
             font-size: 1.7rem;
@@ -54,6 +57,7 @@
             margin: 6px 0 12px;
             border: 2px solid #ebc287;
             box-shadow: inset 0 2px 6px #ffe6c1;
+            transition: background-color 0.8s ease;
         }
         .sentence {
             font-size: 1.6rem;
@@ -67,6 +71,7 @@
             margin-bottom: 10px;
             box-shadow: 0 4px 0 #ccaa7b;
             word-break: break-word;
+            transition: background-color 0.8s ease;
         }
         .english-translation {
             font-size: 1.3rem;
@@ -78,6 +83,7 @@
             border-radius: 40px;
             border: 1px dashed #c9a87c;
             margin-top: 5px;
+            transition: background-color 0.8s ease;
         }
         .options-grid {
             display: flex;
@@ -97,7 +103,7 @@
             border-radius: 50px;
             box-shadow: 0 4px 0 #b69160, 0 5px 8px #855e33;
             cursor: pointer;
-            transition: 0.08s linear;
+            transition: 0.08s linear, background-color 0.8s ease;
             text-align: center;
             flex: 0 1 auto;
             line-height: 1.2;
@@ -144,7 +150,7 @@
             padding: 12px 20px;
             border-radius: 50px;
             cursor: pointer;
-            transition: 0.08s;
+            transition: 0.08s, background-color 0.8s ease;
             border: 2px solid;
             flex: 1;
             min-width: 110px;
@@ -195,6 +201,7 @@
             align-items: center;
             justify-content: center;
             flex: 0 1 auto;
+            transition: background-color 0.8s ease;
         }
         .score-middle div {
             display: flex;
@@ -207,6 +214,7 @@
             padding: 4px 12px;
             color: #1c4010;
             border: 2px solid #5a8c3a;
+            transition: background-color 0.8s ease;
         }
         .wrong-badge {
             background: #f3c2bc;
@@ -214,11 +222,12 @@
             padding: 4px 12px;
             color: #661f14;
             border: 2px solid #bc5f4c;
+            transition: background-color 0.8s ease;
         }
     </style>
 </head>
 <body>
-<div class="app-card">
+<div class="app-card" id="appCard">
     <h1>Exercices sur les Possessifs</h1>
 
     <div class="question-panel">
@@ -370,7 +379,7 @@
         let flashTimeout = null;
 
         // DOM elements
-        const bodyEl = document.body;
+        const appCard = document.getElementById('appCard');
         const sentenceDisplay = document.getElementById('sentenceDisplay');
         const translationDisplay = document.getElementById('translationDisplay');
         const optionsContainer = document.getElementById('optionsContainer');
@@ -396,22 +405,25 @@
             wrongSpan.textContent = wrongCount;
         }
 
-        function flashBackground(color) {
+        function flashAppCard(color) {
+            // Clear any existing timeout and remove previous classes
             if (flashTimeout) {
                 clearTimeout(flashTimeout);
             }
-            bodyEl.classList.remove('flash-green', 'flash-red');
+            appCard.classList.remove('flash-green', 'flash-red');
             
+            // Add the appropriate flash class to the app card
             if (color === 'green') {
-                bodyEl.classList.add('flash-green');
+                appCard.classList.add('flash-green');
             } else if (color === 'red') {
-                bodyEl.classList.add('flash-red');
+                appCard.classList.add('flash-red');
             }
             
+            // Remove the class after 0.8 seconds (matches CSS transition)
             flashTimeout = setTimeout(() => {
-                bodyEl.classList.remove('flash-green', 'flash-red');
+                appCard.classList.remove('flash-green', 'flash-red');
                 flashTimeout = null;
-            }, 3000);
+            }, 800);
         }
 
         function handleOptionClick(event) {
@@ -437,7 +449,7 @@
             if (chosen === correct) {
                 btn.classList.add('selected-correct');
                 correctCount++;
-                flashBackground('green');
+                flashAppCard('green');
             } else {
                 btn.classList.add('selected-wrong');
                 document.querySelectorAll('.det-btn').forEach(b => {
@@ -446,7 +458,7 @@
                     }
                 });
                 wrongCount++;
-                flashBackground('red');
+                flashAppCard('red');
             }
             
             updateScoreDisplay();
@@ -506,9 +518,10 @@
             updateScoreDisplay();
             renderExercise();
             
+            // Clear any ongoing flash
             if (flashTimeout) {
                 clearTimeout(flashTimeout);
-                bodyEl.classList.remove('flash-green', 'flash-red');
+                appCard.classList.remove('flash-green', 'flash-red');
                 flashTimeout = null;
             }
         }
