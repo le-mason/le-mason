@@ -94,6 +94,7 @@
             text-align: center;
             flex: 0 1 auto;
             line-height: 1.2;
+            -webkit-tap-highlight-color: transparent; /* removes mobile tap flash */
         }
         .det-btn:hover:not(:disabled) {
             background: #ffefda;
@@ -102,17 +103,17 @@
             box-shadow: 0 2px 0 #b69160, 0 5px 8px #7b562b;
         }
         .det-btn.selected-correct {
-            background: #c5e0b4;
-            border-color: #4f7a2b;
-            box-shadow: 0 4px 0 #2f6015;
-            color: #1e3c08;
+            background: #c5e0b4 !important;
+            border-color: #4f7a2b !important;
+            box-shadow: 0 4px 0 #2f6015 !important;
+            color: #1e3c08 !important;
             pointer-events: none;
         }
         .det-btn.selected-wrong {
-            background: #f6cfcd;
-            border-color: #ba5a4c;
-            box-shadow: 0 4px 0 #972417;
-            color: #4e1f1a;
+            background: #f6cfcd !important;
+            border-color: #ba5a4c !important;
+            box-shadow: 0 4px 0 #972417 !important;
+            color: #4e1f1a !important;
             text-decoration: line-through 2px #a00;
             pointer-events: none;
         }
@@ -418,6 +419,7 @@
             }
 
             currentExercise = currentExerciseSet[currentIndex];
+            // Keep the blank for the new question
             sentenceDisplay.textContent = currentExercise.sentence;
             translationDisplay.textContent = currentExercise.english;
 
@@ -432,6 +434,10 @@
                 btn.textContent = det;
                 btn.dataset.det = det;
                 btn.addEventListener('click', onOptionClick);
+                btn.addEventListener('touchstart', function(e) {
+                    // This tiny no-op forces immediate style application on mobile
+                    e.preventDefault();
+                }, { passive: false });
                 optionsContainer.appendChild(btn);
             });
 
@@ -453,7 +459,16 @@
             const correct = currentExercise.correct;
 
             isAnswered = true;
-            document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
+            
+            // Immediately disable all buttons and apply classes
+            document.querySelectorAll('.det-btn').forEach(b => { 
+                b.disabled = true; 
+            });
+
+            // Fill in the blank with the correct answer
+            const sentenceWithBlank = currentExercise.sentence;
+            const filledSentence = sentenceWithBlank.replace('_____', correct);
+            sentenceDisplay.textContent = filledSentence;
 
             if (chosen === correct) {
                 btn.classList.add('selected-correct');
@@ -469,6 +484,10 @@
                 feedbackMessage.innerHTML = `❌ « ${chosen} » n'est pas juste. Le bon déterminant est « ${correct} ».`;
                 wrongCount++;
             }
+            
+            // Force a reflow to ensure styles apply immediately on mobile
+            void btn.offsetHeight;
+            
             updateScoreDisplay();
             nextBtn.disabled = false;
         }
