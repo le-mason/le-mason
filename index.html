@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Exercices sur les Possessifs – couleurs harmonisées + délai</title>
+    <title>Possessifs – mobile optimisé</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,111 +12,108 @@
         }
         body {
             min-height: 100vh;
-            /* light grey background: #d9d9d9 */
-            background: #d9d9d9 !important;
+            background: #d9d9d9 !important;  /* light grey */
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            transition: background-color 2s ease; /* 2-second fade back to light grey */
+            padding: 8px;
+            transition: background-color 2s ease; /* 2s fade back to grey */
+            -webkit-tap-highlight-color: transparent;
         }
-        /* flash classes – colors exactly match the button states:
-           - correct green: #c5e0b4 (from .selected-correct)
-           - incorrect red: #f6cfcd (from .selected-wrong)
-        */
+        /* flash – exact button colors */
         body.flash-green {
-            background: #c5e0b4 !important; /* exact same as correct button */
+            background: #c5e0b4 !important;
         }
         body.flash-red {
-            background: #f6cfcd !important; /* exact same as incorrect button */
+            background: #f6cfcd !important;
         }
 
         .app-card {
             max-width: 420px;
             width: 100%;
-            /* 50% transparent white – opacity 0.5 */
             background: rgba(255, 252, 245, 0.5);
             backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border-radius: 40px 40px 30px 30px;
             box-shadow: 0 20px 35px -8px #3a2e1f, 0 0 0 1px #fad6a8 inset;
-            padding: 20px 16px 26px;
+            padding: 16px 12px 22px;
             margin: 0 auto;
-            color: #2f2a20;
         }
         h1 {
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: #3f2d12;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border-bottom: 4px solid #ebc17e;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .question-panel {
-            background: rgba(255, 251, 245, 0.8);
+            background: rgba(255, 251, 245, 0.9);
             border-radius: 28px;
-            padding: 16px 12px 12px 12px;
-            margin: 6px 0 12px;
+            padding: 12px 10px 10px;
+            margin: 5px 0 12px;
             border: 2px solid #ebc287;
             box-shadow: inset 0 2px 6px #ffe6c1;
         }
         .sentence {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 600;
             color: #3e2c14;
             text-align: center;
             line-height: 1.3;
             background: #fcedd7;
-            padding: 16px 8px;
+            padding: 14px 8px;
             border-radius: 30px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             box-shadow: 0 4px 0 #ccaa7b;
             word-break: break-word;
         }
         .english-translation {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #5f4a2e;
             text-align: center;
             font-style: italic;
-            background: rgba(252, 243, 230, 0.9);
-            padding: 8px 12px;
+            background: rgba(252, 243, 230, 0.95);
+            padding: 6px 12px;
             border-radius: 40px;
             border: 1px dashed #c9a87c;
-            margin-top: 5px;
         }
         .options-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px 8px;
-            margin: 18px 0 18px;
+            gap: 8px 6px;
+            margin: 15px 0 15px;
         }
+        /* simpler mobile-friendly buttons */
         .det-btn {
-            background: rgba(250, 240, 224, 0.9);
+            background: #faf0e0;
             border: 3px solid #e2c7a3;
             color: #432f15;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            min-width: 90px;
+            min-width: 85px;
             padding: 14px 4px;
             border-radius: 50px;
-            box-shadow: 0 4px 0 #b69160, 0 5px 8px #855e33;
+            box-shadow: 0 4px 0 #b69160;
             cursor: pointer;
-            transition: 0.08s linear;
             text-align: center;
             flex: 0 1 auto;
             line-height: 1.2;
-            -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: transform 0.05s, background 0.05s;
         }
-        .det-btn:hover:not(:disabled) {
-            background: #ffefda;
-            border-color: #c9a26c;
-            transform: scale(0.97);
-            box-shadow: 0 2px 0 #b69160, 0 5px 8px #7b562b;
+        /* active feedback for mobile tap */
+        .det-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #b69160;
         }
         .det-btn.selected-correct {
             background: #c5e0b4 !important;
@@ -124,6 +121,7 @@
             box-shadow: 0 4px 0 #2f6015 !important;
             color: #1e3c08 !important;
             pointer-events: none;
+            transform: none;
         }
         .det-btn.selected-wrong {
             background: #f6cfcd !important;
@@ -132,12 +130,14 @@
             color: #4e1f1a !important;
             text-decoration: line-through 2px #a00;
             pointer-events: none;
+            transform: none;
         }
         .det-btn:disabled {
             opacity: 0.8;
-            cursor: not-allowed;
+            cursor: default;
             filter: grayscale(0.2);
         }
+
         .action-row {
             display: flex;
             align-items: center;
@@ -146,47 +146,40 @@
             margin-top: 8px;
             flex-wrap: wrap;
         }
-        .reset-btn {
-            background: rgba(231, 207, 176, 0.9);
-            border: none;
+        .reset-btn, .next-btn {
             font-size: 1.3rem;
             font-weight: 600;
-            color: #3f2d15;
-            padding: 12px 20px;
-            border-radius: 50px;
-            box-shadow: 0 4px 0 #b18f64;
+            padding: 12px 14px;
+            border-radius: 60px;
+            border: none;
             cursor: pointer;
-            transition: 0.08s;
-            border: 2px solid #ffe9cf;
             flex: 1;
             min-width: 110px;
             white-space: nowrap;
             touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.05s, box-shadow 0.05s;
+            text-align: center;
+        }
+        .reset-btn {
+            background: #e7cfb0;
+            color: #3f2d15;
+            box-shadow: 0 4px 0 #b18f64;
+            border: 2px solid #ffe9cf;
         }
         .reset-btn:active {
             transform: translateY(4px);
             box-shadow: 0 1px 0 #b18f64;
         }
         .next-btn {
-            background: rgba(47, 94, 60, 0.9);
-            border: none;
+            background: #2f5e3c;
             color: white;
-            font-weight: 600;
-            font-size: 1.4rem;
-            padding: 12px 20px;
-            border-radius: 60px;
-            box-shadow: 0 5px 0 #1b3b24, 0 5px 12px #b2956e;
-            cursor: pointer;
-            transition: 0.08s;
+            box-shadow: 0 5px 0 #1b3b24;
             border: 2px solid #9fcb8b;
-            flex: 1;
-            min-width: 110px;
-            white-space: nowrap;
-            touch-action: manipulation;
         }
         .next-btn:active {
             transform: translateY(4px);
-            box-shadow: 0 1px 0 #1b3b24, 0 5px 12px #b2956e;
+            box-shadow: 0 1px 0 #1b3b24;
         }
         .next-btn:disabled {
             opacity: 0.5;
@@ -196,15 +189,14 @@
         }
         .score-middle {
             display: flex;
-            gap: 12px;
-            background: rgba(255, 244, 227, 0.9);
-            padding: 6px 18px;
+            gap: 10px;
+            background: rgba(255, 244, 227, 0.95);
+            padding: 6px 14px;
             border-radius: 60px;
             border: 2px solid #e0b780;
             font-weight: 600;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #3d2a10;
-            white-space: nowrap;
             align-items: center;
             justify-content: center;
             flex: 0 1 auto;
@@ -212,19 +204,19 @@
         .score-middle div {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
         .correct-badge {
             background: #a7c89b;
             border-radius: 40px;
-            padding: 4px 12px;
+            padding: 4px 10px;
             color: #1c4010;
             border: 2px solid #5a8c3a;
         }
         .wrong-badge {
             background: #f3c2bc;
             border-radius: 40px;
-            padding: 4px 12px;
+            padding: 4px 10px;
             color: #661f14;
             border: 2px solid #bc5f4c;
         }
@@ -239,28 +231,22 @@
         <div class="english-translation" id="translationDisplay">(English translation)</div>
     </div>
 
-    <!-- 6 answer buttons -->
     <div id="optionsContainer" class="options-grid"></div>
 
-    <!-- no feedback text, only background flash -->
-
     <div class="action-row">
-        <button class="reset-btn" id="resetBtn" aria-label="rejouer">↻ Rejouer</button>
-        
+        <button class="reset-btn" id="resetBtn">↻ Rejouer</button>
         <div class="score-middle">
             <div class="correct-badge">✔ <span id="correctCount">0</span></div>
             <div class="wrong-badge">✘ <span id="wrongCount">0</span></div>
         </div>
-
         <button class="next-btn" id="nextBtn">Suivant ➔</button>
     </div>
 </div>
 
 <script>
     (function() {
-        // ----- BANK OF QUESTIONS (unchanged) -----
+        // ----- QUESTION BANK (unchanged) -----
         const questionBank = [
-            // Masculin singulier
             { sentence: "_____ chat est mignon.", correct: "mon", hint: "ms", english: "My cat is cute." },
             { sentence: "_____ ordinateur est lent.", correct: "mon", hint: "ms", english: "My computer is slow." },
             { sentence: "_____ frère s'appelle Paul.", correct: "mon", hint: "ms", english: "My brother is called Paul." },
@@ -281,8 +267,6 @@
             { sentence: "_____ projet est ambitieux.", correct: "votre", hint: "ms", english: "Your project is ambitious." },
             { sentence: "_____ avis compte.", correct: "votre", hint: "ms", english: "Your opinion matters." },
             { sentence: "_____ appartement est petit.", correct: "leur", hint: "ms", english: "Their apartment is small." },
-            
-            // Féminin singulier
             { sentence: "_____ voiture est rouge.", correct: "ma", hint: "fs", english: "My car is red." },
             { sentence: "_____ maison est blanche.", correct: "ma", hint: "fs", english: "My house is white." },
             { sentence: "_____ chambre est rangée.", correct: "ma", hint: "fs", english: "My room is tidy." },
@@ -300,8 +284,6 @@
             { sentence: "_____ idée est géniale.", correct: "votre", hint: "fs", english: "Your idea is great." },
             { sentence: "_____ opinion compte.", correct: "votre", hint: "fs", english: "Your opinion matters." },
             { sentence: "_____ école est fermée.", correct: "leur", hint: "fs", english: "Their school is closed." },
-            
-            // Pluriel
             { sentence: "J'aime _____ chiens.", correct: "mes", hint: "pl", english: "I like my dogs." },
             { sentence: "_____ cousins sont drôles.", correct: "mes", hint: "pl", english: "My cousins are funny." },
             { sentence: "_____ affaires sont dans le couloir.", correct: "mes", hint: "pl", english: "My things are in the hallway." },
@@ -315,8 +297,6 @@
             { sentence: "_____ enfants jouent dehors.", correct: "vos", hint: "pl", english: "Your children are playing outside." },
             { sentence: "_____ réunions sont courtes.", correct: "leurs", hint: "pl", english: "Their meetings are short." },
             { sentence: "_____ projets aboutissent.", correct: "leurs", hint: "pl", english: "Their projects are succeeding." },
-            
-            // Spécial voyelle
             { sentence: "_____ amie s'appelle Lucie.", correct: "mon", hint: "vowel_f", english: "My friend (f) is called Lucie." },
             { sentence: "_____ école est moderne.", correct: "mon", hint: "vowel_f", english: "My school is modern." },
             { sentence: "_____ université est grande.", correct: "mon", hint: "vowel_f", english: "My university is big." },
@@ -324,12 +304,10 @@
             { sentence: "_____ idée a marché.", correct: "son", hint: "vowel_f", english: "His/her idea worked." }
         ];
 
-        // Build options (same logic)
+        // Build options (unchanged)
         function buildOptions(correctAnswer, hint) {
             const allPoss = ["mon","ma","mes","ton","ta","tes","son","sa","ses","notre","nos","votre","vos","leur","leurs"];
-            
             let candidates = allPoss.filter(p => p !== correctAnswer);
-            
             if (hint === 'ms') {
                 candidates = candidates.filter(p => !['mon','ton','son','notre','votre','leur'].includes(p));
             } else if (hint === 'fs') {
@@ -339,7 +317,6 @@
             } else if (hint === 'vowel_f') {
                 candidates = candidates.filter(p => !['mon','ton','son'].includes(p));
             }
-            
             const shuffled = [...candidates].sort(() => Math.random() - 0.5);
             let selected = new Set();
             for (let p of shuffled) {
@@ -356,7 +333,6 @@
                     }
                 }
             }
-            
             let options = [correctAnswer, ...Array.from(selected)];
             for (let i = options.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -365,27 +341,21 @@
             return options;
         }
 
-        const exerciseBank = questionBank.map(q => {
-            const options = buildOptions(q.correct, q.hint);
-            return {
-                sentence: q.sentence,
-                correct: q.correct,
-                options: options,
-                hint: q.hint,
-                english: q.english
-            };
-        });
+        const exerciseBank = questionBank.map(q => ({
+            sentence: q.sentence,
+            correct: q.correct,
+            options: buildOptions(q.correct, q.hint),
+            english: q.english
+        }));
 
-        // ---- state ----
+        // State
         let currentExerciseSet = [];
         let currentIndex = 0;
-        let correctCount = 0;
-        let wrongCount = 0;
+        let correctCount = 0, wrongCount = 0;
         let isAnswered = false;
         let currentExercise = null;
         let flashTimeout = null;
 
-        // DOM elements
         const bodyEl = document.body;
         const sentenceDisplay = document.getElementById('sentenceDisplay');
         const translationDisplay = document.getElementById('translationDisplay');
@@ -404,7 +374,7 @@
         }
 
         function getExerciseSet() {
-            return shuffleArray([...exerciseBank]);
+            return shuffleArray([...exerciseBank]).slice(0, 20);
         }
 
         function updateScoreDisplay() {
@@ -412,41 +382,27 @@
             wrongSpan.textContent = wrongCount;
         }
 
-        // Flash: instant color, wait 0.5s, THEN transition back to #d9d9d9 over 2s
+        // Flash: instant, wait 0.5s, then fade 2s back to grey
         function flashBackground(color) {
-            if (flashTimeout) {
-                clearTimeout(flashTimeout);
-            }
+            if (flashTimeout) clearTimeout(flashTimeout);
             bodyEl.classList.remove('flash-green', 'flash-red');
-            
-            if (color === 'green') {
-                bodyEl.classList.add('flash-green');
-            } else if (color === 'red') {
-                bodyEl.classList.add('flash-red');
-            }
-            
-            // Force repaint to show flash instantly
-            void bodyEl.offsetHeight;
+            if (color === 'green') bodyEl.classList.add('flash-green');
+            else if (color === 'red') bodyEl.classList.add('flash-red');
+            void bodyEl.offsetHeight; // force repaint
 
-            // **Wait 500ms (half a second) before starting the 2s fade back**
             flashTimeout = setTimeout(() => {
                 bodyEl.classList.remove('flash-green', 'flash-red');
                 flashTimeout = null;
-            }, 500); // 500ms delay -> then transition to grey over 2s (CSS handles duration)
+            }, 500);
         }
 
         function renderExercise() {
-            if (!currentExerciseSet.length || currentIndex >= currentExerciseSet.length) {
-                return;
-            }
-
+            if (!currentExerciseSet.length || currentIndex >= currentExerciseSet.length) return;
             currentExercise = currentExerciseSet[currentIndex];
             sentenceDisplay.textContent = currentExercise.sentence;
             translationDisplay.textContent = currentExercise.english;
 
-            const opts = currentExercise.options;
-            const shuffledOpts = shuffleArray([...opts]);
-
+            const shuffledOpts = shuffleArray([...currentExercise.options]);
             optionsContainer.innerHTML = '';
 
             shuffledOpts.forEach(det => {
@@ -454,12 +410,9 @@
                 btn.className = 'det-btn';
                 btn.textContent = det;
                 btn.dataset.det = det;
-                
+                // one listener per button (simple)
                 btn.addEventListener('click', onOptionClick);
-                btn.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                }, { passive: false });
-                
+                btn.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
                 optionsContainer.appendChild(btn);
             });
 
@@ -468,27 +421,21 @@
                 btn.classList.remove('selected-correct', 'selected-wrong');
                 btn.disabled = false;
             });
-
             nextBtn.disabled = true;
         }
 
-        function onOptionClick(event) {
-            event.preventDefault();
+        function onOptionClick(e) {
+            e.preventDefault();
             if (isAnswered) return;
-
-            const btn = event.currentTarget;
+            const btn = e.currentTarget;
             const chosen = btn.dataset.det;
             const correct = currentExercise.correct;
 
             isAnswered = true;
-            
-            document.querySelectorAll('.det-btn').forEach(b => { 
-                b.disabled = true; 
-            });
+            document.querySelectorAll('.det-btn').forEach(b => b.disabled = true);
 
-            const sentenceWithBlank = currentExercise.sentence;
-            const filledSentence = sentenceWithBlank.replace('_____', correct);
-            sentenceDisplay.textContent = filledSentence;
+            // Fill blank with correct answer
+            sentenceDisplay.textContent = currentExercise.sentence.replace('_____', correct);
 
             if (chosen === correct) {
                 btn.classList.add('selected-correct');
@@ -497,63 +444,45 @@
             } else {
                 btn.classList.add('selected-wrong');
                 document.querySelectorAll('.det-btn').forEach(b => {
-                    if (b.dataset.det === correct) {
-                        b.classList.add('selected-correct');
-                    }
+                    if (b.dataset.det === correct) b.classList.add('selected-correct');
                 });
                 wrongCount++;
                 flashBackground('red');
             }
-            
-            void btn.offsetHeight;
-            
             updateScoreDisplay();
             nextBtn.disabled = false;
         }
 
         function goToNext() {
             if (!isAnswered) return;
-
             if (currentIndex + 1 < currentExerciseSet.length) {
                 currentIndex++;
                 renderExercise();
             } else {
                 sentenceDisplay.textContent = "_____ (fin de série)";
-                translationDisplay.textContent = "end of series - clique Rejouer";
+                translationDisplay.textContent = "clique Rejouer";
                 nextBtn.disabled = true;
-                document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
+                document.querySelectorAll('.det-btn').forEach(b => b.disabled = true);
             }
         }
 
         function resetGame() {
-            currentExerciseSet = getExerciseSet().slice(0, 20);
+            currentExerciseSet = getExerciseSet();
             currentIndex = 0;
             correctCount = 0;
             wrongCount = 0;
             isAnswered = false;
             updateScoreDisplay();
             renderExercise();
-            
-            if (flashTimeout) {
-                clearTimeout(flashTimeout);
-                flashTimeout = null;
-            }
+            if (flashTimeout) clearTimeout(flashTimeout);
             bodyEl.classList.remove('flash-green', 'flash-red');
         }
 
+        // Event listeners – no extra touch handlers needed (active state in CSS)
         nextBtn.addEventListener('click', goToNext);
         resetBtn.addEventListener('click', resetGame);
 
-        nextBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            goToNext();
-        }, { passive: false });
-        
-        resetBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            resetGame();
-        }, { passive: false });
-
+        // start
         resetGame();
     })();
 </script>
