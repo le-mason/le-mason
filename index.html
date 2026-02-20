@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>🇫🇷 Possessifs · 6 options, 1 correcte</title>
+    <title>Exercices sur les Possessifs</title>
     <style>
         * {
             box-sizing: border-box;
@@ -29,43 +29,48 @@
             margin: 0 auto;
         }
         h1 {
-            font-size: 1.9rem;
+            font-size: 1.7rem;
             font-weight: 600;
             color: #3f2d12;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 12px;
             border-bottom: 4px solid #ebc17e;
             padding-bottom: 10px;
-        }
-        h1 span {
-            background: #fde6c4;
-            font-size: 2.1rem;
-            padding: 4px 14px 8px 14px;
-            border-radius: 50px;
-            box-shadow: 0 4px 0 #be8f50;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .question-panel {
             background: #fffbf5;
             border-radius: 28px;
-            padding: 8px 6px 8px 6px;
+            padding: 16px 12px 12px 12px;
             margin: 6px 0 12px;
             border: 2px solid #ebc287;
             box-shadow: inset 0 2px 6px #ffe6c1;
         }
         .sentence {
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: #3e2c14;
             text-align: center;
             line-height: 1.3;
             background: #fcedd7;
-            padding: 24px 8px;
-            border-radius: 40px;
-            margin-bottom: 3px;
-            box-shadow: 0 5px 0 #ccaa7b;
+            padding: 16px 8px;
+            border-radius: 30px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 0 #ccaa7b;
             word-break: break-word;
+        }
+        .english-translation {
+            font-size: 1.3rem;
+            color: #5f4a2e;
+            text-align: center;
+            font-style: italic;
+            background: #fcf3e6;
+            padding: 8px 12px;
+            border-radius: 40px;
+            border: 1px dashed #c9a87c;
+            margin-top: 5px;
         }
         .options-grid {
             display: flex;
@@ -217,25 +222,15 @@
             color: #661f14;
             border: 2px solid #bc5f4c;
         }
-        .footer-note {
-            text-align: center;
-            margin-top: 20px;
-            color: #987b58;
-            font-size: 1rem;
-            border-top: 1px solid #eddbbd;
-            padding-top: 16px;
-        }
     </style>
 </head>
 <body>
 <div class="app-card">
-    <h1>
-        <span>🧑‍🏫</span>
-        Possessifs · 6 choix
-    </h1>
+    <h1>Exercices sur les Possessifs</h1>
 
     <div class="question-panel">
         <div class="sentence" id="sentenceDisplay">_____ chat est mignon.</div>
+        <div class="english-translation" id="translationDisplay">(English translation)</div>
     </div>
 
     <!-- 6 answer buttons will be injected here -->
@@ -255,126 +250,108 @@
 
         <button class="next-btn" id="nextBtn">Suivant ➔</button>
     </div>
-    <div class="footer-note">✪ une seule réponse possible parmi 6 ✪</div>
 </div>
 
 <script>
     (function() {
-        // ----- BANK OF QUESTIONS - each with ONE correct answer, and we'll generate 5 distractors -----
+        // ----- BANK OF QUESTIONS - each with ONE correct answer and English translation -----
         const questionBank = [
-            // Format: { sentence, correct, genderNumberHint } (genderNumberHint used to pick appropriate distractors)
-            // Masculin singulier (mon/ton/son/notre/votre/leur) - but we want only ONE correct
-            { sentence: "_____ chat est mignon.", correct: "mon", hint: "ms" },
-            { sentence: "_____ ordinateur est lent.", correct: "mon", hint: "ms" },
-            { sentence: "_____ frère s'appelle Paul.", correct: "mon", hint: "ms" },
-            { sentence: "_____ stylo ne écrit plus.", correct: "mon", hint: "ms" },
-            { sentence: "_____ sac est trop lourd.", correct: "mon", hint: "ms" },
-            { sentence: "_____ vélo est cassé.", correct: "ton", hint: "ms" },
-            { sentence: "_____ cahier est rouge.", correct: "ton", hint: "ms" },
-            { sentence: "_____ téléphone sonne.", correct: "ton", hint: "ms" },
-            { sentence: "_____ père est boulanger.", correct: "ton", hint: "ms" },
-            { sentence: "_____ gâteau est délicieux.", correct: "ton", hint: "ms" },
-            { sentence: "_____ chien est calme.", correct: "son", hint: "ms" },
-            { sentence: "_____ lit est défait.", correct: "son", hint: "ms" },
-            { sentence: "_____ travail est fatiguant.", correct: "son", hint: "ms" },
-            { sentence: "_____ cœur bat vite.", correct: "son", hint: "ms" },
-            { sentence: "_____ bureau est en désordre.", correct: "notre", hint: "ms" },
-            { sentence: "_____ jardin est fleuri.", correct: "notre", hint: "ms" },
-            { sentence: "_____ pays est beau.", correct: "notre", hint: "ms" },
-            { sentence: "_____ projet est ambitieux.", correct: "votre", hint: "ms" },
-            { sentence: "_____ avis compte.", correct: "votre", hint: "ms" },
-            { sentence: "_____ appartement est petit.", correct: "leur", hint: "ms" },
+            // Masculin singulier
+            { sentence: "_____ chat est mignon.", correct: "mon", hint: "ms", english: "My cat is cute." },
+            { sentence: "_____ ordinateur est lent.", correct: "mon", hint: "ms", english: "My computer is slow." },
+            { sentence: "_____ frère s'appelle Paul.", correct: "mon", hint: "ms", english: "My brother is called Paul." },
+            { sentence: "_____ stylo ne écrit plus.", correct: "mon", hint: "ms", english: "My pen doesn't write anymore." },
+            { sentence: "_____ sac est trop lourd.", correct: "mon", hint: "ms", english: "My bag is too heavy." },
+            { sentence: "_____ vélo est cassé.", correct: "ton", hint: "ms", english: "Your bike is broken." },
+            { sentence: "_____ cahier est rouge.", correct: "ton", hint: "ms", english: "Your notebook is red." },
+            { sentence: "_____ téléphone sonne.", correct: "ton", hint: "ms", english: "Your phone is ringing." },
+            { sentence: "_____ père est boulanger.", correct: "ton", hint: "ms", english: "Your father is a baker." },
+            { sentence: "_____ gâteau est délicieux.", correct: "ton", hint: "ms", english: "Your cake is delicious." },
+            { sentence: "_____ chien est calme.", correct: "son", hint: "ms", english: "His/her dog is calm." },
+            { sentence: "_____ lit est défait.", correct: "son", hint: "ms", english: "His/her bed is unmade." },
+            { sentence: "_____ travail est fatiguant.", correct: "son", hint: "ms", english: "His/her work is tiring." },
+            { sentence: "_____ cœur bat vite.", correct: "son", hint: "ms", english: "His/her heart beats fast." },
+            { sentence: "_____ bureau est en désordre.", correct: "notre", hint: "ms", english: "Our desk is messy." },
+            { sentence: "_____ jardin est fleuri.", correct: "notre", hint: "ms", english: "Our garden is blooming." },
+            { sentence: "_____ pays est beau.", correct: "notre", hint: "ms", english: "Our country is beautiful." },
+            { sentence: "_____ projet est ambitieux.", correct: "votre", hint: "ms", english: "Your project is ambitious." },
+            { sentence: "_____ avis compte.", correct: "votre", hint: "ms", english: "Your opinion matters." },
+            { sentence: "_____ appartement est petit.", correct: "leur", hint: "ms", english: "Their apartment is small." },
             
-            // Féminin singulier (ma/ta/sa/notre/votre/leur) - careful with vowel words -> handled by hint
-            { sentence: "_____ voiture est rouge.", correct: "ma", hint: "fs" },
-            { sentence: "_____ maison est blanche.", correct: "ma", hint: "fs" },
-            { sentence: "_____ chambre est rangée.", correct: "ma", hint: "fs" },
-            { sentence: "_____ famille est nombreuse.", correct: "ma", hint: "fs" },
-            { sentence: "_____ sœur est brésilienne.", correct: "ma", hint: "fs" },
-            { sentence: "_____ trousse est perdue.", correct: "ta", hint: "fs" },
-            { sentence: "_____ guitare est accordée.", correct: "ta", hint: "fs" },
-            { sentence: "_____ chemise est froissée.", correct: "ta", hint: "fs" },
-            { sentence: "_____ réponse est correcte.", correct: "ta", hint: "fs" },
-            { sentence: "_____ valise est lourde.", correct: "sa", hint: "fs" },
-            { sentence: "_____ robe est longue.", correct: "sa", hint: "fs" },
-            { sentence: "_____ mère est professeur.", correct: "sa", hint: "fs" },
-            { sentence: "_____ écharpe est douce.", correct: "notre", hint: "fs" },
-            { sentence: "_____ équipe a gagné.", correct: "notre", hint: "fs" },
-            { sentence: "_____ idée est géniale.", correct: "votre", hint: "fs" },  // idée f but vowel -> notre/votre/leur work, but we use votre as correct
-            { sentence: "_____ opinion compte.", correct: "votre", hint: "fs" },
-            { sentence: "_____ école est fermée.", correct: "leur", hint: "fs" }, // école f, leur works
+            // Féminin singulier
+            { sentence: "_____ voiture est rouge.", correct: "ma", hint: "fs", english: "My car is red." },
+            { sentence: "_____ maison est blanche.", correct: "ma", hint: "fs", english: "My house is white." },
+            { sentence: "_____ chambre est rangée.", correct: "ma", hint: "fs", english: "My room is tidy." },
+            { sentence: "_____ famille est nombreuse.", correct: "ma", hint: "fs", english: "My family is large." },
+            { sentence: "_____ sœur est brésilienne.", correct: "ma", hint: "fs", english: "My sister is Brazilian." },
+            { sentence: "_____ trousse est perdue.", correct: "ta", hint: "fs", english: "Your pencil case is lost." },
+            { sentence: "_____ guitare est accordée.", correct: "ta", hint: "fs", english: "Your guitar is tuned." },
+            { sentence: "_____ chemise est froissée.", correct: "ta", hint: "fs", english: "Your shirt is wrinkled." },
+            { sentence: "_____ réponse est correcte.", correct: "ta", hint: "fs", english: "Your answer is correct." },
+            { sentence: "_____ valise est lourde.", correct: "sa", hint: "fs", english: "His/her suitcase is heavy." },
+            { sentence: "_____ robe est longue.", correct: "sa", hint: "fs", english: "His/her dress is long." },
+            { sentence: "_____ mère est professeur.", correct: "sa", hint: "fs", english: "His/her mother is a teacher." },
+            { sentence: "_____ écharpe est douce.", correct: "notre", hint: "fs", english: "Our scarf is soft." },
+            { sentence: "_____ équipe a gagné.", correct: "notre", hint: "fs", english: "Our team won." },
+            { sentence: "_____ idée est géniale.", correct: "votre", hint: "fs", english: "Your idea is great." },
+            { sentence: "_____ opinion compte.", correct: "votre", hint: "fs", english: "Your opinion matters." },
+            { sentence: "_____ école est fermée.", correct: "leur", hint: "fs", english: "Their school is closed." },
             
-            // Pluriel (mes/tes/ses/nos/vos/leurs) - we make sure only plural correct answers
-            { sentence: "J'aime _____ chiens.", correct: "mes", hint: "pl" },
-            { sentence: "_____ cousins sont drôles.", correct: "mes", hint: "pl" },
-            { sentence: "_____ affaires sont dans le couloir.", correct: "mes", hint: "pl" },
-            { sentence: "_____ chaussures sont neuves.", correct: "tes", hint: "pl" },
-            { sentence: "_____ devoirs sont longs.", correct: "tes", hint: "pl" },
-            { sentence: "_____ clés ont disparu.", correct: "ses", hint: "pl" },
-            { sentence: "_____ amis arrivent demain.", correct: "ses", hint: "pl" }, // amis masc pl, ses correct
-            { sentence: "_____ livres sont ouverts.", correct: "nos", hint: "pl" },
-            { sentence: "_____ parents voyagent.", correct: "nos", hint: "pl" },
-            { sentence: "_____ voisins sont bruyants.", correct: "vos", hint: "pl" },
-            { sentence: "_____ enfants jouent dehors.", correct: "vos", hint: "pl" },
-            { sentence: "_____ réunions sont courtes.", correct: "leurs", hint: "pl" },
-            { sentence: "_____ projets aboutissent.", correct: "leurs", hint: "pl" },
+            // Pluriel
+            { sentence: "J'aime _____ chiens.", correct: "mes", hint: "pl", english: "I like my dogs." },
+            { sentence: "_____ cousins sont drôles.", correct: "mes", hint: "pl", english: "My cousins are funny." },
+            { sentence: "_____ affaires sont dans le couloir.", correct: "mes", hint: "pl", english: "My things are in the hallway." },
+            { sentence: "_____ chaussures sont neuves.", correct: "tes", hint: "pl", english: "Your shoes are new." },
+            { sentence: "_____ devoirs sont longs.", correct: "tes", hint: "pl", english: "Your homework is long." },
+            { sentence: "_____ clés ont disparu.", correct: "ses", hint: "pl", english: "His/her keys disappeared." },
+            { sentence: "_____ amis arrivent demain.", correct: "ses", hint: "pl", english: "His/her friends arrive tomorrow." },
+            { sentence: "_____ livres sont ouverts.", correct: "nos", hint: "pl", english: "Our books are open." },
+            { sentence: "_____ parents voyagent.", correct: "nos", hint: "pl", english: "Our parents are traveling." },
+            { sentence: "_____ voisins sont bruyants.", correct: "vos", hint: "pl", english: "Your neighbors are noisy." },
+            { sentence: "_____ enfants jouent dehors.", correct: "vos", hint: "pl", english: "Your children are playing outside." },
+            { sentence: "_____ réunions sont courtes.", correct: "leurs", hint: "pl", english: "Their meetings are short." },
+            { sentence: "_____ projets aboutissent.", correct: "leurs", hint: "pl", english: "Their projects are succeeding." },
             
-            // Spécial voyelle (mon/ton/son devant voyelle ou h muet)
-            { sentence: "_____ amie s'appelle Lucie.", correct: "mon", hint: "vowel_f" },  // amie f but mon
-            { sentence: "_____ école est moderne.", correct: "mon", hint: "vowel_f" },
-            { sentence: "_____ université est grande.", correct: "mon", hint: "vowel_f" },
-            { sentence: "_____ histoire est longue.", correct: "ton", hint: "vowel_f" },
-            { sentence: "_____ idée a marché.", correct: "son", hint: "vowel_f" }
+            // Spécial voyelle
+            { sentence: "_____ amie s'appelle Lucie.", correct: "mon", hint: "vowel_f", english: "My friend (f) is called Lucie." },
+            { sentence: "_____ école est moderne.", correct: "mon", hint: "vowel_f", english: "My school is modern." },
+            { sentence: "_____ université est grande.", correct: "mon", hint: "vowel_f", english: "My university is big." },
+            { sentence: "_____ histoire est longue.", correct: "ton", hint: "vowel_f", english: "Your story is long." },
+            { sentence: "_____ idée a marché.", correct: "son", hint: "vowel_f", english: "His/her idea worked." }
         ];
 
         // Helper: return a set of 5 distractors + correct answer = 6 total, only one correct
         function buildOptions(correctAnswer, hint) {
-            // All possessive determiners
             const allPoss = ["mon","ma","mes","ton","ta","tes","son","sa","ses","notre","nos","votre","vos","leur","leurs"];
             
-            // Remove correct from pool
             let candidates = allPoss.filter(p => p !== correctAnswer);
             
-            // Further filter based on hint to ensure only ONE correct type in options:
-            // We want to make sure that if correct is singular masculine, we avoid including other singular masculines? 
-            // Actually we want ONLY correct to be possible. So we filter out any determiner that could also be correct for the same gender/number.
-            // But we need plausible distractors, so we include some that are wrong gender/number.
-            
-            let pool = [];
-            if (hint === 'ms') { // correct is masculine singular
-                // keep all except other masculine singulars that are NOT the correct? Actually we want only one ms correct.
-                // So we remove all other ms from candidates? That would leave only fs and pl. Good.
-                pool = candidates.filter(p => !['mon','ton','son','notre','votre','leur'].includes(p) || p === correctAnswer);
-            } else if (hint === 'fs') { // feminine singular (ma, ta, sa, notre, votre, leur)
-                pool = candidates.filter(p => !['ma','ta','sa','notre','votre','leur'].includes(p) || p === correctAnswer);
-            } else if (hint === 'pl') { // plural (mes,tes,ses,nos,vos,leurs)
-                pool = candidates.filter(p => !['mes','tes','ses','nos','vos','leurs'].includes(p) || p === correctAnswer);
-            } else if (hint === 'vowel_f') { // correct is mon/ton/son but noun feminine (vowel)
-                // correct is among mon/ton/son ; exclude other vowel-friendly? but we want only one correct.
-                // So we remove other mon/ton/son from candidates.
-                pool = candidates.filter(p => !['mon','ton','son'].includes(p) || p === correctAnswer);
-            } else {
-                pool = candidates;
+            // Filter based on hint to keep only one possible correct in the set
+            if (hint === 'ms') {
+                candidates = candidates.filter(p => !['mon','ton','son','notre','votre','leur'].includes(p));
+            } else if (hint === 'fs') {
+                candidates = candidates.filter(p => !['ma','ta','sa','notre','votre','leur'].includes(p));
+            } else if (hint === 'pl') {
+                candidates = candidates.filter(p => !['mes','tes','ses','nos','vos','leurs'].includes(p));
+            } else if (hint === 'vowel_f') {
+                candidates = candidates.filter(p => !['mon','ton','son'].includes(p));
             }
             
-            // Shuffle pool and pick 5 distinct
-            const shuffled = [...pool].sort(() => Math.random() - 0.5);
+            // Shuffle and pick 5
+            const shuffled = [...candidates].sort(() => Math.random() - 0.5);
             let selected = new Set();
-            while (selected.size < 5 && shuffled.length > 0) {
-                // pick from shuffled
-                for (let p of shuffled) {
+            for (let p of shuffled) {
+                if (!selected.has(p) && p !== correctAnswer) {
+                    selected.add(p);
+                    if (selected.size === 5) break;
+                }
+            }
+            // Fallback if needed
+            while (selected.size < 5) {
+                for (let p of allPoss) {
                     if (!selected.has(p) && p !== correctAnswer) {
                         selected.add(p);
                         if (selected.size === 5) break;
-                    }
-                }
-                // If we still don't have 5, add any from allPoss that aren't correct (fallback)
-                if (selected.size < 5) {
-                    for (let p of allPoss) {
-                        if (!selected.has(p) && p !== correctAnswer) {
-                            selected.add(p);
-                            if (selected.size === 5) break;
-                        }
                     }
                 }
             }
@@ -388,14 +365,15 @@
             return options;
         }
 
-        // Build full exercise list with options
+        // Build full exercise list with options and translation
         const exerciseBank = questionBank.map(q => {
             const options = buildOptions(q.correct, q.hint);
             return {
                 sentence: q.sentence,
                 correct: q.correct,
                 options: options,
-                hint: q.hint
+                hint: q.hint,
+                english: q.english
             };
         });
 
@@ -409,6 +387,7 @@
 
         // DOM elements
         const sentenceDisplay = document.getElementById('sentenceDisplay');
+        const translationDisplay = document.getElementById('translationDisplay');
         const optionsContainer = document.getElementById('optionsContainer');
         const feedbackMessage = document.getElementById('feedbackMessage');
         const correctSpan = document.getElementById('correctCount');
@@ -440,9 +419,9 @@
 
             currentExercise = currentExerciseSet[currentIndex];
             sentenceDisplay.textContent = currentExercise.sentence;
+            translationDisplay.textContent = currentExercise.english;
 
             const opts = currentExercise.options;
-            // shuffle again for variety
             const shuffledOpts = shuffleArray([...opts]);
 
             optionsContainer.innerHTML = '';
@@ -482,7 +461,6 @@
                 correctCount++;
             } else {
                 btn.classList.add('selected-wrong');
-                // highlight the correct button
                 document.querySelectorAll('.det-btn').forEach(b => {
                     if (b.dataset.det === correct) {
                         b.classList.add('selected-correct');
@@ -503,13 +481,14 @@
                 renderExercise();
             } else {
                 feedbackMessage.innerHTML = '🎉 Série terminée ! Clique sur "Rejouer" pour une nouvelle série.';
+                translationDisplay.textContent = "(end of series)";
                 nextBtn.disabled = true;
                 document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
             }
         }
 
         function resetGame() {
-            currentExerciseSet = getExerciseSet().slice(0, 20); // 20 questions per round
+            currentExerciseSet = getExerciseSet().slice(0, 20);
             currentIndex = 0;
             correctCount = 0;
             wrongCount = 0;
