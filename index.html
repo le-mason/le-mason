@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Exercices sur les Possessifs</title>
+    <title>Exercices sur les Possessifs – couleurs harmonisées + délai</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,21 +12,36 @@
         }
         body {
             min-height: 100vh;
-            background: linear-gradient(145deg, #f0ebe1 0%, #faf0e0 100%);
+            /* light grey background: #d9d9d9 */
+            background: #d9d9d9 !important;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 10px;
+            transition: background-color 2s ease; /* 2-second fade back to light grey */
         }
+        /* flash classes – colors exactly match the button states:
+           - correct green: #c5e0b4 (from .selected-correct)
+           - incorrect red: #f6cfcd (from .selected-wrong)
+        */
+        body.flash-green {
+            background: #c5e0b4 !important; /* exact same as correct button */
+        }
+        body.flash-red {
+            background: #f6cfcd !important; /* exact same as incorrect button */
+        }
+
         .app-card {
             max-width: 420px;
             width: 100%;
-            background: #fffcf5f0;
-            backdrop-filter: blur(4px);
+            /* 50% transparent white – opacity 0.5 */
+            background: rgba(255, 252, 245, 0.5);
+            backdrop-filter: blur(6px);
             border-radius: 40px 40px 30px 30px;
-            box-shadow: 0 20px 35px -8px #7a5e40, 0 0 0 1px #fad6a8 inset;
+            box-shadow: 0 20px 35px -8px #3a2e1f, 0 0 0 1px #fad6a8 inset;
             padding: 20px 16px 26px;
             margin: 0 auto;
+            color: #2f2a20;
         }
         h1 {
             font-size: 1.7rem;
@@ -41,7 +56,7 @@
             text-overflow: ellipsis;
         }
         .question-panel {
-            background: #fffbf5;
+            background: rgba(255, 251, 245, 0.8);
             border-radius: 28px;
             padding: 16px 12px 12px 12px;
             margin: 6px 0 12px;
@@ -66,7 +81,7 @@
             color: #5f4a2e;
             text-align: center;
             font-style: italic;
-            background: #fcf3e6;
+            background: rgba(252, 243, 230, 0.9);
             padding: 8px 12px;
             border-radius: 40px;
             border: 1px dashed #c9a87c;
@@ -80,7 +95,7 @@
             margin: 18px 0 18px;
         }
         .det-btn {
-            background: #faf0e0;
+            background: rgba(250, 240, 224, 0.9);
             border: 3px solid #e2c7a3;
             color: #432f15;
             font-size: 1.6rem;
@@ -94,7 +109,8 @@
             text-align: center;
             flex: 0 1 auto;
             line-height: 1.2;
-            -webkit-tap-highlight-color: transparent; /* removes mobile tap flash */
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         .det-btn:hover:not(:disabled) {
             background: #ffefda;
@@ -122,19 +138,6 @@
             cursor: not-allowed;
             filter: grayscale(0.2);
         }
-        .feedback {
-            background: #faeedb;
-            border-radius: 40px;
-            padding: 16px 18px;
-            margin: 5px 0 18px;
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: #2b1b09;
-            border-left: 10px solid #deb887;
-            min-height: 65px;
-            display: flex;
-            align-items: center;
-        }
         .action-row {
             display: flex;
             align-items: center;
@@ -144,7 +147,7 @@
             flex-wrap: wrap;
         }
         .reset-btn {
-            background: #e7cfb0;
+            background: rgba(231, 207, 176, 0.9);
             border: none;
             font-size: 1.3rem;
             font-weight: 600;
@@ -158,13 +161,14 @@
             flex: 1;
             min-width: 110px;
             white-space: nowrap;
+            touch-action: manipulation;
         }
         .reset-btn:active {
             transform: translateY(4px);
             box-shadow: 0 1px 0 #b18f64;
         }
         .next-btn {
-            background: #2f5e3c;
+            background: rgba(47, 94, 60, 0.9);
             border: none;
             color: white;
             font-weight: 600;
@@ -178,6 +182,7 @@
             flex: 1;
             min-width: 110px;
             white-space: nowrap;
+            touch-action: manipulation;
         }
         .next-btn:active {
             transform: translateY(4px);
@@ -192,7 +197,7 @@
         .score-middle {
             display: flex;
             gap: 12px;
-            background: #fff4e3;
+            background: rgba(255, 244, 227, 0.9);
             padding: 6px 18px;
             border-radius: 60px;
             border: 2px solid #e0b780;
@@ -234,12 +239,10 @@
         <div class="english-translation" id="translationDisplay">(English translation)</div>
     </div>
 
-    <!-- 6 answer buttons will be injected here -->
+    <!-- 6 answer buttons -->
     <div id="optionsContainer" class="options-grid"></div>
 
-    <div class="feedback" id="feedbackArea">
-        <span id="feedbackMessage"></span>
-    </div>
+    <!-- no feedback text, only background flash -->
 
     <div class="action-row">
         <button class="reset-btn" id="resetBtn" aria-label="rejouer">↻ Rejouer</button>
@@ -255,7 +258,7 @@
 
 <script>
     (function() {
-        // ----- BANK OF QUESTIONS - each with ONE correct answer and English translation -----
+        // ----- BANK OF QUESTIONS (unchanged) -----
         const questionBank = [
             // Masculin singulier
             { sentence: "_____ chat est mignon.", correct: "mon", hint: "ms", english: "My cat is cute." },
@@ -321,13 +324,12 @@
             { sentence: "_____ idée a marché.", correct: "son", hint: "vowel_f", english: "His/her idea worked." }
         ];
 
-        // Helper: return a set of 5 distractors + correct answer = 6 total, only one correct
+        // Build options (same logic)
         function buildOptions(correctAnswer, hint) {
             const allPoss = ["mon","ma","mes","ton","ta","tes","son","sa","ses","notre","nos","votre","vos","leur","leurs"];
             
             let candidates = allPoss.filter(p => p !== correctAnswer);
             
-            // Filter based on hint to keep only one possible correct in the set
             if (hint === 'ms') {
                 candidates = candidates.filter(p => !['mon','ton','son','notre','votre','leur'].includes(p));
             } else if (hint === 'fs') {
@@ -338,7 +340,6 @@
                 candidates = candidates.filter(p => !['mon','ton','son'].includes(p));
             }
             
-            // Shuffle and pick 5
             const shuffled = [...candidates].sort(() => Math.random() - 0.5);
             let selected = new Set();
             for (let p of shuffled) {
@@ -347,7 +348,6 @@
                     if (selected.size === 5) break;
                 }
             }
-            // Fallback if needed
             while (selected.size < 5) {
                 for (let p of allPoss) {
                     if (!selected.has(p) && p !== correctAnswer) {
@@ -358,7 +358,6 @@
             }
             
             let options = [correctAnswer, ...Array.from(selected)];
-            // Shuffle options
             for (let i = options.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [options[i], options[j]] = [options[j], options[i]];
@@ -366,7 +365,6 @@
             return options;
         }
 
-        // Build full exercise list with options and translation
         const exerciseBank = questionBank.map(q => {
             const options = buildOptions(q.correct, q.hint);
             return {
@@ -385,12 +383,13 @@
         let wrongCount = 0;
         let isAnswered = false;
         let currentExercise = null;
+        let flashTimeout = null;
 
         // DOM elements
+        const bodyEl = document.body;
         const sentenceDisplay = document.getElementById('sentenceDisplay');
         const translationDisplay = document.getElementById('translationDisplay');
         const optionsContainer = document.getElementById('optionsContainer');
-        const feedbackMessage = document.getElementById('feedbackMessage');
         const correctSpan = document.getElementById('correctCount');
         const wrongSpan = document.getElementById('wrongCount');
         const nextBtn = document.getElementById('nextBtn');
@@ -413,13 +412,35 @@
             wrongSpan.textContent = wrongCount;
         }
 
+        // Flash: instant color, wait 0.5s, THEN transition back to #d9d9d9 over 2s
+        function flashBackground(color) {
+            if (flashTimeout) {
+                clearTimeout(flashTimeout);
+            }
+            bodyEl.classList.remove('flash-green', 'flash-red');
+            
+            if (color === 'green') {
+                bodyEl.classList.add('flash-green');
+            } else if (color === 'red') {
+                bodyEl.classList.add('flash-red');
+            }
+            
+            // Force repaint to show flash instantly
+            void bodyEl.offsetHeight;
+
+            // **Wait 500ms (half a second) before starting the 2s fade back**
+            flashTimeout = setTimeout(() => {
+                bodyEl.classList.remove('flash-green', 'flash-red');
+                flashTimeout = null;
+            }, 500); // 500ms delay -> then transition to grey over 2s (CSS handles duration)
+        }
+
         function renderExercise() {
             if (!currentExerciseSet.length || currentIndex >= currentExerciseSet.length) {
                 return;
             }
 
             currentExercise = currentExerciseSet[currentIndex];
-            // Keep the blank for the new question
             sentenceDisplay.textContent = currentExercise.sentence;
             translationDisplay.textContent = currentExercise.english;
 
@@ -433,11 +454,12 @@
                 btn.className = 'det-btn';
                 btn.textContent = det;
                 btn.dataset.det = det;
+                
                 btn.addEventListener('click', onOptionClick);
                 btn.addEventListener('touchstart', function(e) {
-                    // This tiny no-op forces immediate style application on mobile
                     e.preventDefault();
                 }, { passive: false });
+                
                 optionsContainer.appendChild(btn);
             });
 
@@ -447,11 +469,11 @@
                 btn.disabled = false;
             });
 
-            feedbackMessage.innerHTML = '';
             nextBtn.disabled = true;
         }
 
         function onOptionClick(event) {
+            event.preventDefault();
             if (isAnswered) return;
 
             const btn = event.currentTarget;
@@ -460,20 +482,18 @@
 
             isAnswered = true;
             
-            // Immediately disable all buttons and apply classes
             document.querySelectorAll('.det-btn').forEach(b => { 
                 b.disabled = true; 
             });
 
-            // Fill in the blank with the correct answer
             const sentenceWithBlank = currentExercise.sentence;
             const filledSentence = sentenceWithBlank.replace('_____', correct);
             sentenceDisplay.textContent = filledSentence;
 
             if (chosen === correct) {
                 btn.classList.add('selected-correct');
-                feedbackMessage.innerHTML = `✅ « ${chosen} » est correct.`;
                 correctCount++;
+                flashBackground('green');
             } else {
                 btn.classList.add('selected-wrong');
                 document.querySelectorAll('.det-btn').forEach(b => {
@@ -481,11 +501,10 @@
                         b.classList.add('selected-correct');
                     }
                 });
-                feedbackMessage.innerHTML = `❌ « ${chosen} » n'est pas juste. Le bon déterminant est « ${correct} ».`;
                 wrongCount++;
+                flashBackground('red');
             }
             
-            // Force a reflow to ensure styles apply immediately on mobile
             void btn.offsetHeight;
             
             updateScoreDisplay();
@@ -499,8 +518,8 @@
                 currentIndex++;
                 renderExercise();
             } else {
-                feedbackMessage.innerHTML = '🎉 Série terminée ! Clique sur "Rejouer" pour une nouvelle série.';
-                translationDisplay.textContent = "(end of series)";
+                sentenceDisplay.textContent = "_____ (fin de série)";
+                translationDisplay.textContent = "end of series - clique Rejouer";
                 nextBtn.disabled = true;
                 document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
             }
@@ -514,10 +533,26 @@
             isAnswered = false;
             updateScoreDisplay();
             renderExercise();
+            
+            if (flashTimeout) {
+                clearTimeout(flashTimeout);
+                flashTimeout = null;
+            }
+            bodyEl.classList.remove('flash-green', 'flash-red');
         }
 
         nextBtn.addEventListener('click', goToNext);
         resetBtn.addEventListener('click', resetGame);
+
+        nextBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            goToNext();
+        }, { passive: false });
+        
+        resetBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            resetGame();
+        }, { passive: false });
 
         resetGame();
     })();
