@@ -37,14 +37,25 @@
             background-color: #f6cfcd !important;
             box-shadow: 0 20px 35px -8px #972417, 0 0 0 3px #ba5a4c inset !important;
         }
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            border-bottom: 4px solid #ebc17e;
+            padding-bottom: 10px;
+        }
+        .title-emoji {
+            font-size: 2rem;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+        }
         h1 {
             font-size: 1.7rem;
             font-weight: 600;
             color: #3f2d12;
             text-align: center;
-            margin-bottom: 12px;
-            border-bottom: 4px solid #ebc17e;
-            padding-bottom: 10px;
+            margin: 0;
         }
         .question-panel {
             background: #fffbf5;
@@ -66,10 +77,30 @@
             margin-bottom: 10px;
             box-shadow: 0 4px 0 #ccaa7b;
             word-break: break-word;
-            min-height: 7.5rem; /* Ensures space for two lines */
+            min-height: 5.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+        .placeholder {
+            display: inline-block;
+            min-width: 4.5rem;
+            text-align: center;
+            background-color: #e8d5bc;
+            border-radius: 12px;
+            padding: 0 6px;
+            border-bottom: 3px solid #b69160;
+            font-weight: 700;
+            color: #3e2c14;
+        }
+        .placeholder.filled {
+            background-color: #fff0d8;
+            border-bottom-color: #4f7a2b;
+        }
+        .sentence-part {
+            display: inline-block;
         }
         .english-translation {
             font-size: 1.3rem;
@@ -222,10 +253,14 @@
 </head>
 <body>
 <div class="app-card" id="appCard">
-    <h1>Possessifs</h1>
+    <div class="title-container">
+        <span class="title-emoji">📚</span>
+        <h1>Possessifs</h1>
+        <span class="title-emoji">✏️</span>
+    </div>
 
     <div class="question-panel">
-        <div class="sentence" id="sentenceDisplay">_____ chat est mignon.</div>
+        <div class="sentence" id="sentenceDisplay"></div>
         <div class="english-translation" id="translationDisplay">(English translation)</div>
     </div>
 
@@ -247,7 +282,7 @@
     (function() {
         // ----- BANK OF QUESTIONS -----
         const questionBank = [
-            // Masculin singulier
+            // Original prompts (keeping all existing ones)
             { sentence: "_____ chat est mignon.", correct: "mon", hint: "ms", english: "My cat is cute." },
             { sentence: "_____ ordinateur est lent.", correct: "mon", hint: "ms", english: "My computer is slow." },
             { sentence: "_____ frère s'appelle Paul.", correct: "mon", hint: "ms", english: "My brother is called Paul." },
@@ -269,7 +304,6 @@
             { sentence: "_____ avis compte.", correct: "votre", hint: "ms", english: "Your opinion matters." },
             { sentence: "_____ appartement est petit.", correct: "leur", hint: "ms", english: "Their apartment is small." },
             
-            // Féminin singulier
             { sentence: "_____ voiture est rouge.", correct: "ma", hint: "fs", english: "My car is red." },
             { sentence: "_____ maison est blanche.", correct: "ma", hint: "fs", english: "My house is white." },
             { sentence: "_____ chambre est rangée.", correct: "ma", hint: "fs", english: "My room is tidy." },
@@ -288,7 +322,6 @@
             { sentence: "_____ opinion compte.", correct: "votre", hint: "fs", english: "Your opinion matters." },
             { sentence: "_____ école est fermée.", correct: "leur", hint: "fs", english: "Their school is closed." },
             
-            // Pluriel
             { sentence: "J'aime _____ chiens.", correct: "mes", hint: "pl", english: "I like my dogs." },
             { sentence: "_____ cousins sont drôles.", correct: "mes", hint: "pl", english: "My cousins are funny." },
             { sentence: "_____ affaires sont dans le couloir.", correct: "mes", hint: "pl", english: "My things are in the hallway." },
@@ -303,12 +336,33 @@
             { sentence: "_____ réunions sont courtes.", correct: "leurs", hint: "pl", english: "Their meetings are short." },
             { sentence: "_____ projets aboutissent.", correct: "leurs", hint: "pl", english: "Their projects are succeeding." },
             
-            // Spécial voyelle
             { sentence: "_____ amie s'appelle Lucie.", correct: "mon", hint: "vowel_f", english: "My friend (f) is called Lucie." },
             { sentence: "_____ école est moderne.", correct: "mon", hint: "vowel_f", english: "My school is modern." },
             { sentence: "_____ université est grande.", correct: "mon", hint: "vowel_f", english: "My university is big." },
             { sentence: "_____ histoire est longue.", correct: "ton", hint: "vowel_f", english: "Your story is long." },
-            { sentence: "_____ idée a marché.", correct: "son", hint: "vowel_f", english: "His/her idea worked." }
+            { sentence: "_____ idée a marché.", correct: "son", hint: "vowel_f", english: "His/her idea worked." },
+            
+            // 20 NEW PROMPTS - Animals, Food, Daily Life, etc.
+            { sentence: "_____ chapeau est élégant.", correct: "mon", hint: "ms", english: "My hat is elegant." },
+            { sentence: "_____ pizza est délicieuse.", correct: "ma", hint: "fs", english: "My pizza is delicious." },
+            { sentence: "_____ lunettes sont cassées.", correct: "mes", hint: "pl", english: "My glasses are broken." },
+            { sentence: "_____ bureau est en bois.", correct: "ton", hint: "ms", english: "Your desk is wooden." },
+            { sentence: "_____ jupe est trop courte.", correct: "ta", hint: "fs", english: "Your skirt is too short." },
+            { sentence: "_____ chaussettes sont trouées.", correct: "tes", hint: "pl", english: "Your socks have holes." },
+            { sentence: "_____ nouveau jouet est bruyant.", correct: "son", hint: "ms", english: "His/her new toy is noisy." },
+            { sentence: "_____ plante a besoin d'eau.", correct: "sa", hint: "fs", english: "His/her plant needs water." },
+            { sentence: "_____ chaussures de sport sont sales.", correct: "ses", hint: "pl", english: "His/her sports shoes are dirty." },
+            { sentence: "_____ nouveau voisin est sympa.", correct: "notre", hint: "ms", english: "Our new neighbor is nice." },
+            { sentence: "_____ nouvelle maison a un jardin.", correct: "notre", hint: "fs", english: "Our new house has a garden." },
+            { sentence: "_____ nouveaux amis sont canadiens.", correct: "nos", hint: "pl", english: "Our new friends are Canadian." },
+            { sentence: "_____ dernier film était ennuyeux.", correct: "votre", hint: "ms", english: "Your last film was boring." },
+            { sentence: "_____ nouvelle recette est délicieuse.", correct: "votre", hint: "fs", english: "Your new recipe is delicious." },
+            { sentence: "_____ anciens professeurs étaient stricts.", correct: "vos", hint: "pl", english: "Your former teachers were strict." },
+            { sentence: "_____ grand-père est centenaire.", correct: "leur", hint: "ms", english: "Their grandfather is 100 years old." },
+            { sentence: "_____ grand-mère fait des gâteaux.", correct: "leur", hint: "fs", english: "Their grandmother makes cakes." },
+            { sentence: "_____ petits-enfants sont adorables.", correct: "leurs", hint: "pl", english: "Their grandchildren are adorable." },
+            { sentence: "_____ ancienne voiture tombait en panne.", correct: "mon", hint: "vowel_f", english: "My old car kept breaking down." },
+            { sentence: "_____ énorme chien fait peur.", correct: "ton", hint: "vowel_f", english: "Your huge dog is scary." }
         ];
 
         // Helper: return a set of 5 distractors + correct answer = 6 total
@@ -400,24 +454,44 @@
         }
 
         function flashAppCard(color) {
-            // Clear any existing timeout and remove previous classes
             if (flashTimeout) {
                 clearTimeout(flashTimeout);
             }
             appCard.classList.remove('flash-green', 'flash-red');
             
-            // Add the appropriate flash class to the app card
             if (color === 'green') {
                 appCard.classList.add('flash-green');
             } else if (color === 'red') {
                 appCard.classList.add('flash-red');
             }
             
-            // Remove the class after 0.4 seconds (twice as fast as before)
             flashTimeout = setTimeout(() => {
                 appCard.classList.remove('flash-green', 'flash-red');
                 flashTimeout = null;
             }, 400);
+        }
+
+        function formatSentenceWithPlaceholder(sentence, filledWord = null) {
+            const parts = sentence.split('_____');
+            
+            if (parts.length !== 2) return sentence;
+            
+            const before = parts[0];
+            const after = parts[1];
+            
+            if (filledWord) {
+                return `
+                    <span class="sentence-part">${before}</span>
+                    <span class="placeholder filled">${filledWord}</span>
+                    <span class="sentence-part">${after}</span>
+                `;
+            } else {
+                return `
+                    <span class="sentence-part">${before}</span>
+                    <span class="placeholder">_____</span>
+                    <span class="sentence-part">${after}</span>
+                `;
+            }
         }
 
         function handleOptionClick(event) {
@@ -435,10 +509,8 @@
                 b.disabled = true; 
             });
 
-            // Fill in the blank with the correct answer
-            const sentenceWithBlank = currentExercise.sentence;
-            const filledSentence = sentenceWithBlank.replace('_____', correct);
-            sentenceDisplay.textContent = filledSentence;
+            // Fill in the blank with the correct answer using the styled placeholder
+            sentenceDisplay.innerHTML = formatSentenceWithPlaceholder(currentExercise.sentence, correct);
 
             if (chosen === correct) {
                 btn.classList.add('selected-correct');
@@ -465,7 +537,9 @@
             }
 
             currentExercise = currentExerciseSet[currentIndex];
-            sentenceDisplay.textContent = currentExercise.sentence;
+            
+            // Use the formatted sentence with placeholder
+            sentenceDisplay.innerHTML = formatSentenceWithPlaceholder(currentExercise.sentence);
             translationDisplay.textContent = currentExercise.english;
 
             const opts = currentExercise.options;
@@ -479,7 +553,6 @@
                 btn.textContent = det;
                 btn.dataset.det = det;
                 
-                // Use only click event - works for both mouse and touch
                 btn.addEventListener('click', handleOptionClick);
                 
                 optionsContainer.appendChild(btn);
@@ -496,7 +569,7 @@
                 currentIndex++;
                 renderExercise();
             } else {
-                sentenceDisplay.textContent = "_____ (fin de série)";
+                sentenceDisplay.innerHTML = '<span class="placeholder">_____</span> <span class="sentence-part">(fin de série)</span>';
                 translationDisplay.textContent = "end of series - clique Rejouer";
                 nextBtn.disabled = true;
                 document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
@@ -512,7 +585,6 @@
             updateScoreDisplay();
             renderExercise();
             
-            // Clear any ongoing flash
             if (flashTimeout) {
                 clearTimeout(flashTimeout);
                 appCard.classList.remove('flash-green', 'flash-red');
@@ -520,7 +592,6 @@
             }
         }
 
-        // Use only click events for buttons too - works everywhere
         nextBtn.addEventListener('click', goToNext);
         resetBtn.addEventListener('click', resetGame);
 
