@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>français • formel/informel</title>
+    <title>Possessifs - Exercices</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             font-family: 'Segoe UI', Roboto, 'Helvetica Neue', system-ui, -apple-system, sans-serif;
         }
-
         body {
             min-height: 100vh;
             background: linear-gradient(145deg, #f0ebe1 0%, #faf0e0 100%);
@@ -19,7 +18,6 @@
             justify-content: center;
             padding: 10px;
         }
-
         .app-card {
             max-width: 420px;
             width: 100%;
@@ -31,7 +29,14 @@
             margin: 0 auto;
             transition: background-color 0.4s ease, box-shadow 0.4s ease;
         }
-
+        .app-card.flash-green {
+            background-color: #c5e0b4 !important;
+            box-shadow: 0 20px 35px -8px #2f6015, 0 0 0 3px #4f7a2b inset !important;
+        }
+        .app-card.flash-red {
+            background-color: #f6cfcd !important;
+            box-shadow: 0 20px 35px -8px #972417, 0 0 0 3px #ba5a4c inset !important;
+        }
         .title-container {
             display: flex;
             align-items: center;
@@ -41,12 +46,10 @@
             border-bottom: 4px solid #ebc17e;
             padding-bottom: 10px;
         }
-
         .title-emoji {
             font-size: 2rem;
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
         }
-
         h1 {
             font-size: 1.7rem;
             font-weight: 600;
@@ -54,452 +57,545 @@
             text-align: center;
             margin: 0;
         }
-
-        /* toggle formel/informel */
-        .toggle-row {
-            display: flex;
-            gap: 8px;
-            margin: 20px 0 16px;
-            background: #f4e8d9;
-            padding: 6px;
-            border-radius: 60px;
-            border: 2px solid #ebc287;
-        }
-
-        .toggle-option {
-            flex: 1;
-            background: #faf0e0;
-            border: 2px solid #e2c7a3;
-            color: #432f15;
-            font-size: 1.3rem;
-            font-weight: 600;
-            padding: 10px 6px;
-            border-radius: 50px;
-            box-shadow: 0 3px 0 #b69160, 0 2px 6px #855e33;
-            cursor: pointer;
-            transition: 0.08s linear;
-            text-align: center;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-        }
-
-        .toggle-option.active {
-            background: #d9d0b5;
-            border-color: #a5834b;
-            box-shadow: 0 2px 0 #7a5e3a;
-            transform: translateY(2px);
-            font-weight: 700;
-            color: #2f2a1a;
-        }
-
-        .toggle-option:active {
-            transform: translateY(3px);
-            box-shadow: 0 1px 0 #b69160;
-        }
-
-        /* main panel */
         .question-panel {
             background: #fffbf5;
             border-radius: 28px;
-            padding: 18px 16px;
+            padding: 16px 12px 12px 12px;
             margin: 6px 0 12px;
             border: 2px solid #ebc287;
             box-shadow: inset 0 2px 6px #ffe6c1;
-            min-height: 240px; /* enough for three lines + translation */
-            display: flex;
-            flex-direction: column;
         }
-
-        /* view selector (question / réponses) */
-        .view-selector {
-            display: flex;
-            gap: 6px;
-            background: #ecdbbb;
-            padding: 4px;
-            border-radius: 50px;
-            margin-bottom: 16px;
-            border: 1px solid #caa97c;
-        }
-
-        .view-btn {
-            flex: 1;
-            background: #f9ebd7;
-            border: 2px solid #cfb088;
-            color: #4f3c1f;
-            font-size: 1.1rem;
+        .sentence {
+            font-size: 1.6rem;
             font-weight: 600;
-            padding: 8px 4px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.06s;
-            text-align: center;
-            box-shadow: 0 2px 0 #a8875b;
-            user-select: none;
-        }
-
-        .view-btn.active {
-            background: #c1a77c;
-            border-color: #8a693e;
-            color: white;
-            box-shadow: 0 1px 0 #6b4d2c;
-            transform: translateY(2px);
-        }
-
-        /* display area - fixed height to maintain 3 lines */
-        .display-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 160px; /* ensures about 3 lines of question + translation */
-        }
-
-        .question-fr {
-            font-size: 1.9rem;
-            font-weight: 680;
-            line-height: 1.3;
             color: #3e2c14;
-            word-break: break-word;
+            text-align: center;
+            line-height: 1.4;
             background: #fcedd7;
-            padding: 16px 14px;
+            padding: 16px 8px;
             border-radius: 30px;
+            margin-bottom: 10px;
             box-shadow: 0 4px 0 #ccaa7b;
-            margin-bottom: 12px;
-            min-height: 5rem; /* at least 2 lines */
+            word-break: break-word;
+            min-height: 5.5rem;
             display: flex;
             align-items: center;
+            justify-content: center;
+            gap: 2px;
+            flex-wrap: wrap;
         }
-
+        .placeholder {
+            display: inline-block;
+            min-width: 4.5rem;
+            text-align: center;
+            background-color: #e8d5bc;
+            border-radius: 12px;
+            padding: 0 6px;
+            border-bottom: 3px solid #b69160;
+            font-weight: 700;
+            color: #3e2c14;
+        }
+        .placeholder.filled {
+            background-color: #fff0d8;
+            border-bottom-color: #4f7a2b;
+        }
+        .sentence-part {
+            display: inline-block;
+        }
         .english-translation {
             font-size: 1.3rem;
             color: #5f4a2e;
             text-align: center;
             font-style: italic;
             background: #fcf3e6;
-            padding: 10px 12px;
+            padding: 8px 12px;
             border-radius: 40px;
             border: 1px dashed #c9a87c;
-            min-height: 3.2rem; /* ensures at least one line */
+            margin-top: 5px;
+        }
+        .options-grid {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
+            gap: 10px 8px;
+            margin: 18px 0 18px;
         }
-
-        /* responses panel */
-        .responses-panel {
-            background: #f5e8d4;
-            border-radius: 26px;
-            padding: 16px 14px;
-            border: 2px solid #dbb583;
-            box-shadow: inset 0 2px 8px #eedbbb;
-            min-height: 160px;
-            overflow-y: auto;
-        }
-
-        .responses-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #5d4a2b;
-            margin-bottom: 12px;
-            background: #fae3c3;
-            display: inline-block;
-            padding: 4px 18px;
-            border-radius: 40px;
-            border: 1px solid #c9a87c;
-        }
-
-        .response-item {
-            font-size: 1.4rem;
-            font-weight: 500;
-            padding: 10px 0;
-            border-bottom: 2px solid #ebd0ac;
-            color: #2f2a1a;
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-        }
-
-        .response-item:last-child {
-            border-bottom: none;
-        }
-
-        .response-bullet {
-            font-size: 1.4rem;
-            color: #b16f3a;
-            width: 30px;
-            text-align: right;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* audio + next row */
-        .action-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 18px 0 10px;
-        }
-
-        .audio-btn {
+        .det-btn {
             background: #faf0e0;
             border: 3px solid #e2c7a3;
-            color: #3e2c14;
-            font-size: 2rem;
-            padding: 12px 18px;
-            border-radius: 60px;
+            color: #432f15;
+            font-size: 1.6rem;
+            font-weight: 700;
+            min-width: 90px;
+            padding: 14px 4px;
+            border-radius: 50px;
             box-shadow: 0 4px 0 #b69160, 0 5px 8px #855e33;
             cursor: pointer;
             transition: 0.08s linear;
-            line-height: 1;
-            flex-shrink: 0;
+            text-align: center;
+            flex: 0 1 auto;
+            line-height: 1.2;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
         }
-
-        .audio-btn:active {
+        .det-btn:active:not(:disabled) {
             transform: translateY(4px);
             box-shadow: 0 1px 0 #b69160, 0 5px 8px #7b562b;
         }
-
-        .next-btn {
-            flex: 1;
-            background: #2f5e3c;
-            border: 3px solid #9fcb8b;
-            color: white;
-            font-size: 1.4rem;
+        .det-btn.selected-correct {
+            background: #c5e0b4 !important;
+            border-color: #4f7a2b !important;
+            box-shadow: 0 4px 0 #2f6015 !important;
+            color: #1e3c08 !important;
+            pointer-events: none;
+        }
+        .det-btn.selected-wrong {
+            background: #f6cfcd !important;
+            border-color: #ba5a4c !important;
+            box-shadow: 0 4px 0 #972417 !important;
+            color: #4e1f1a !important;
+            text-decoration: line-through 2px #a00;
+            pointer-events: none;
+        }
+        .det-btn:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+            filter: grayscale(0.2);
+        }
+        .action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .reset-btn, .next-btn {
+            font-size: 1.3rem;
             font-weight: 600;
-            padding: 14px 10px;
+            padding: 12px 20px;
             border-radius: 50px;
-            box-shadow: 0 5px 0 #1b3b24, 0 5px 12px #b2956e;
             cursor: pointer;
             transition: 0.08s;
+            border: 2px solid;
+            flex: 1;
+            min-width: 110px;
+            white-space: nowrap;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
             text-align: center;
         }
-
-        .next-btn:active {
+        .reset-btn:active, .next-btn:active {
             transform: translateY(4px);
+        }
+        .reset-btn {
+            background: #e7cfb0;
+            color: #3f2d15;
+            box-shadow: 0 4px 0 #b18f64;
+            border-color: #ffe9cf;
+        }
+        .reset-btn:active {
+            box-shadow: 0 1px 0 #b18f64;
+        }
+        .next-btn {
+            background: #2f5e3c;
+            color: white;
+            box-shadow: 0 5px 0 #1b3b24, 0 5px 12px #b2956e;
+            border-color: #9fcb8b;
+        }
+        .next-btn:active {
             box-shadow: 0 1px 0 #1b3b24, 0 5px 12px #b2956e;
+        }
+        .next-btn:disabled {
+            opacity: 0.5;
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1b3b24;
+            pointer-events: none;
+        }
+        .score-middle {
+            display: flex;
+            gap: 12px;
+            background: #fff4e3;
+            padding: 6px 18px;
+            border-radius: 60px;
+            border: 2px solid #e0b780;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #3d2a10;
+            white-space: nowrap;
+            align-items: center;
+            justify-content: center;
+            flex: 0 1 auto;
+        }
+        .score-middle div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .correct-badge {
+            background: #a7c89b;
+            border-radius: 40px;
+            padding: 4px 12px;
+            color: #1c4010;
+            border: 2px solid #5a8c3a;
+        }
+        .wrong-badge {
+            background: #f3c2bc;
+            border-radius: 40px;
+            padding: 4px 12px;
+            color: #661f14;
+            border: 2px solid #bc5f4c;
         }
     </style>
 </head>
 <body>
 <div class="app-card" id="appCard">
     <div class="title-container">
-        <span class="title-emoji">🗣️</span>
-        <h1>français oral</h1>
-        <span class="title-emoji">🇫🇷</span>
+        <span class="title-emoji">📚</span>
+        <h1>Possessifs</h1>
+        <span class="title-emoji">✏️</span>
     </div>
 
-    <!-- toggle formel/informel - with red cap for informel -->
-    <div class="toggle-row">
-        <button class="toggle-option active" id="toggleInformal">🧢 informel</button>
-        <button class="toggle-option" id="toggleFormal">🎩 formel</button>
-    </div>
-
-    <!-- main panel -->
     <div class="question-panel">
-        <!-- view toggle: question / réponses -->
-        <div class="view-selector">
-            <button class="view-btn active" id="viewQuestionBtn">❓ question</button>
-            <button class="view-btn" id="viewResponsesBtn">💬 réponses</button>
-        </div>
-
-        <!-- question area (visible by default) - fixed height maintains 3 lines -->
-        <div id="questionDisplayArea" class="display-area">
-            <div class="question-fr" id="questionFr">Quel âge as-tu ?</div>
-            <div class="english-translation" id="questionEn">How old are you?</div>
-        </div>
-
-        <!-- responses area (hidden initially) -->
-        <div id="responsesDisplayArea" class="display-area hidden">
-            <div class="responses-panel">
-                <div class="responses-title">💬 exemples de réponses</div>
-                <div id="responsesList"></div>
-            </div>
-        </div>
+        <div class="sentence" id="sentenceDisplay"></div>
+        <div class="english-translation" id="translationDisplay">(English translation)</div>
     </div>
 
-    <!-- audio + next button row -->
+    <div id="optionsContainer" class="options-grid"></div>
+
     <div class="action-row">
-        <button class="audio-btn" id="speakBtn" title="écouter">🔊</button>
-        <button class="next-btn" id="nextBtn">suivant ➔</button>
+        <button class="reset-btn" id="resetBtn">↻ Rejouer</button>
+        
+        <div class="score-middle">
+            <div class="correct-badge">✔ <span id="correctCount">0</span></div>
+            <div class="wrong-badge">✘ <span id="wrongCount">0</span></div>
+        </div>
+
+        <button class="next-btn" id="nextBtn">Suivant ➔</button>
     </div>
 </div>
 
 <script>
     (function() {
-        // --- text-to-speech ---
-        const synth = window.speechSynthesis;
-        function speakFrench(text) {
-            if (!synth) return;
-            synth.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'fr-FR';
-            utterance.rate = 0.9;
-            const voices = synth.getVoices();
-            const frenchVoice = voices.find(v => v.lang === 'fr-FR' || v.lang.startsWith('fr'));
-            if (frenchVoice) utterance.voice = frenchVoice;
-            synth.speak(utterance);
+        // ----- BANK OF QUESTIONS -----
+        const questionBank = [
+            // Original prompts (keeping all existing ones)
+            { sentence: "_____ chat est mignon.", correct: "mon", hint: "ms", english: "My cat is cute." },
+            { sentence: "_____ ordinateur est lent.", correct: "mon", hint: "ms", english: "My computer is slow." },
+            { sentence: "_____ frère s'appelle Paul.", correct: "mon", hint: "ms", english: "My brother is called Paul." },
+            { sentence: "_____ stylo ne écrit plus.", correct: "mon", hint: "ms", english: "My pen doesn't write anymore." },
+            { sentence: "_____ sac est trop lourd.", correct: "mon", hint: "ms", english: "My bag is too heavy." },
+            { sentence: "_____ vélo est cassé.", correct: "ton", hint: "ms", english: "Your bike is broken." },
+            { sentence: "_____ cahier est rouge.", correct: "ton", hint: "ms", english: "Your notebook is red." },
+            { sentence: "_____ téléphone sonne.", correct: "ton", hint: "ms", english: "Your phone is ringing." },
+            { sentence: "_____ père est boulanger.", correct: "ton", hint: "ms", english: "Your father is a baker." },
+            { sentence: "_____ gâteau est délicieux.", correct: "ton", hint: "ms", english: "Your cake is delicious." },
+            { sentence: "_____ chien est calme.", correct: "son", hint: "ms", english: "His/her dog is calm." },
+            { sentence: "_____ lit est défait.", correct: "son", hint: "ms", english: "His/her bed is unmade." },
+            { sentence: "_____ travail est fatiguant.", correct: "son", hint: "ms", english: "His/her work is tiring." },
+            { sentence: "_____ cœur bat vite.", correct: "son", hint: "ms", english: "His/her heart beats fast." },
+            { sentence: "_____ bureau est en désordre.", correct: "notre", hint: "ms", english: "Our desk is messy." },
+            { sentence: "_____ jardin est fleuri.", correct: "notre", hint: "ms", english: "Our garden is blooming." },
+            { sentence: "_____ pays est beau.", correct: "notre", hint: "ms", english: "Our country is beautiful." },
+            { sentence: "_____ projet est ambitieux.", correct: "votre", hint: "ms", english: "Your project is ambitious." },
+            { sentence: "_____ avis compte.", correct: "votre", hint: "ms", english: "Your opinion matters." },
+            { sentence: "_____ appartement est petit.", correct: "leur", hint: "ms", english: "Their apartment is small." },
+            
+            { sentence: "_____ voiture est rouge.", correct: "ma", hint: "fs", english: "My car is red." },
+            { sentence: "_____ maison est blanche.", correct: "ma", hint: "fs", english: "My house is white." },
+            { sentence: "_____ chambre est rangée.", correct: "ma", hint: "fs", english: "My room is tidy." },
+            { sentence: "_____ famille est nombreuse.", correct: "ma", hint: "fs", english: "My family is large." },
+            { sentence: "_____ sœur est brésilienne.", correct: "ma", hint: "fs", english: "My sister is Brazilian." },
+            { sentence: "_____ trousse est perdue.", correct: "ta", hint: "fs", english: "Your pencil case is lost." },
+            { sentence: "_____ guitare est accordée.", correct: "ta", hint: "fs", english: "Your guitar is tuned." },
+            { sentence: "_____ chemise est froissée.", correct: "ta", hint: "fs", english: "Your shirt is wrinkled." },
+            { sentence: "_____ réponse est correcte.", correct: "ta", hint: "fs", english: "Your answer is correct." },
+            { sentence: "_____ valise est lourde.", correct: "sa", hint: "fs", english: "His/her suitcase is heavy." },
+            { sentence: "_____ robe est longue.", correct: "sa", hint: "fs", english: "His/her dress is long." },
+            { sentence: "_____ mère est professeur.", correct: "sa", hint: "fs", english: "His/her mother is a teacher." },
+            { sentence: "_____ écharpe est douce.", correct: "notre", hint: "fs", english: "Our scarf is soft." },
+            { sentence: "_____ équipe a gagné.", correct: "notre", hint: "fs", english: "Our team won." },
+            { sentence: "_____ idée est géniale.", correct: "votre", hint: "fs", english: "Your idea is great." },
+            { sentence: "_____ opinion compte.", correct: "votre", hint: "fs", english: "Your opinion matters." },
+            { sentence: "_____ école est fermée.", correct: "leur", hint: "fs", english: "Their school is closed." },
+            
+            { sentence: "J'aime _____ chiens.", correct: "mes", hint: "pl", english: "I like my dogs." },
+            { sentence: "_____ cousins sont drôles.", correct: "mes", hint: "pl", english: "My cousins are funny." },
+            { sentence: "_____ affaires sont dans le couloir.", correct: "mes", hint: "pl", english: "My things are in the hallway." },
+            { sentence: "_____ chaussures sont neuves.", correct: "tes", hint: "pl", english: "Your shoes are new." },
+            { sentence: "_____ devoirs sont longs.", correct: "tes", hint: "pl", english: "Your homework is long." },
+            { sentence: "_____ clés ont disparu.", correct: "ses", hint: "pl", english: "His/her keys disappeared." },
+            { sentence: "_____ amis arrivent demain.", correct: "ses", hint: "pl", english: "His/her friends arrive tomorrow." },
+            { sentence: "_____ livres sont ouverts.", correct: "nos", hint: "pl", english: "Our books are open." },
+            { sentence: "_____ parents voyagent.", correct: "nos", hint: "pl", english: "Our parents are traveling." },
+            { sentence: "_____ voisins sont bruyants.", correct: "vos", hint: "pl", english: "Your neighbors are noisy." },
+            { sentence: "_____ enfants jouent dehors.", correct: "vos", hint: "pl", english: "Your children are playing outside." },
+            { sentence: "_____ réunions sont courtes.", correct: "leurs", hint: "pl", english: "Their meetings are short." },
+            { sentence: "_____ projets aboutissent.", correct: "leurs", hint: "pl", english: "Their projects are succeeding." },
+            
+            { sentence: "_____ amie s'appelle Lucie.", correct: "mon", hint: "vowel_f", english: "My friend (f) is called Lucie." },
+            { sentence: "_____ école est moderne.", correct: "mon", hint: "vowel_f", english: "My school is modern." },
+            { sentence: "_____ université est grande.", correct: "mon", hint: "vowel_f", english: "My university is big." },
+            { sentence: "_____ histoire est longue.", correct: "ton", hint: "vowel_f", english: "Your story is long." },
+            { sentence: "_____ idée a marché.", correct: "son", hint: "vowel_f", english: "His/her idea worked." },
+            
+            // 20 NEW PROMPTS - Animals, Food, Daily Life, etc.
+            { sentence: "_____ chapeau est élégant.", correct: "mon", hint: "ms", english: "My hat is elegant." },
+            { sentence: "_____ pizza est délicieuse.", correct: "ma", hint: "fs", english: "My pizza is delicious." },
+            { sentence: "_____ lunettes sont cassées.", correct: "mes", hint: "pl", english: "My glasses are broken." },
+            { sentence: "_____ bureau est en bois.", correct: "ton", hint: "ms", english: "Your desk is wooden." },
+            { sentence: "_____ jupe est trop courte.", correct: "ta", hint: "fs", english: "Your skirt is too short." },
+            { sentence: "_____ chaussettes sont trouées.", correct: "tes", hint: "pl", english: "Your socks have holes." },
+            { sentence: "_____ nouveau jouet est bruyant.", correct: "son", hint: "ms", english: "His/her new toy is noisy." },
+            { sentence: "_____ plante a besoin d'eau.", correct: "sa", hint: "fs", english: "His/her plant needs water." },
+            { sentence: "_____ chaussures de sport sont sales.", correct: "ses", hint: "pl", english: "His/her sports shoes are dirty." },
+            { sentence: "_____ nouveau voisin est sympa.", correct: "notre", hint: "ms", english: "Our new neighbor is nice." },
+            { sentence: "_____ nouvelle maison a un jardin.", correct: "notre", hint: "fs", english: "Our new house has a garden." },
+            { sentence: "_____ nouveaux amis sont canadiens.", correct: "nos", hint: "pl", english: "Our new friends are Canadian." },
+            { sentence: "_____ dernier film était ennuyeux.", correct: "votre", hint: "ms", english: "Your last film was boring." },
+            { sentence: "_____ nouvelle recette est délicieuse.", correct: "votre", hint: "fs", english: "Your new recipe is delicious." },
+            { sentence: "_____ anciens professeurs étaient stricts.", correct: "vos", hint: "pl", english: "Your former teachers were strict." },
+            { sentence: "_____ grand-père est centenaire.", correct: "leur", hint: "ms", english: "Their grandfather is 100 years old." },
+            { sentence: "_____ grand-mère fait des gâteaux.", correct: "leur", hint: "fs", english: "Their grandmother makes cakes." },
+            { sentence: "_____ petits-enfants sont adorables.", correct: "leurs", hint: "pl", english: "Their grandchildren are adorable." },
+            { sentence: "_____ ancienne voiture tombait en panne.", correct: "mon", hint: "vowel_f", english: "My old car kept breaking down." },
+            { sentence: "_____ énorme chien fait peur.", correct: "ton", hint: "vowel_f", english: "Your huge dog is scary." }
+        ];
+
+        // Helper: return a set of 5 distractors + correct answer = 6 total
+        function buildOptions(correctAnswer, hint) {
+            const allPoss = ["mon","ma","mes","ton","ta","tes","son","sa","ses","notre","nos","votre","vos","leur","leurs"];
+            
+            let candidates = allPoss.filter(p => p !== correctAnswer);
+            
+            if (hint === 'ms') {
+                candidates = candidates.filter(p => !['mon','ton','son','notre','votre','leur'].includes(p));
+            } else if (hint === 'fs') {
+                candidates = candidates.filter(p => !['ma','ta','sa','notre','votre','leur'].includes(p));
+            } else if (hint === 'pl') {
+                candidates = candidates.filter(p => !['mes','tes','ses','nos','vos','leurs'].includes(p));
+            } else if (hint === 'vowel_f') {
+                candidates = candidates.filter(p => !['mon','ton','son'].includes(p));
+            }
+            
+            const shuffled = [...candidates].sort(() => Math.random() - 0.5);
+            let selected = new Set();
+            for (let p of shuffled) {
+                if (!selected.has(p) && p !== correctAnswer) {
+                    selected.add(p);
+                    if (selected.size === 5) break;
+                }
+            }
+            while (selected.size < 5) {
+                for (let p of allPoss) {
+                    if (!selected.has(p) && p !== correctAnswer) {
+                        selected.add(p);
+                        if (selected.size === 5) break;
+                    }
+                }
+            }
+            
+            let options = [correctAnswer, ...Array.from(selected)];
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            return options;
         }
 
-        // --- question banks ---
-        const questionsInformel = [
-            { fr: "Quel âge as-tu ?", en: "How old are you?" },
-            { fr: "Quelle est ta date de naissance ?", en: "What is your birthday?" },
-            { fr: "As-tu des enfants ?", en: "Do you have children?" },
-            { fr: "D’où viens-tu ?", en: "Where are you from?" },
-            { fr: "Quel est ton pays d’origine ?", en: "What is your country of origin?" },
-            { fr: "Quelles langues parles-tu ?", en: "What languages do you speak?" },
-            { fr: "Comment tu t’appelles ?", en: "What is your name?" },
-            { fr: "Quel est ton nom de famille ?", en: "What is your family name?" },
-            { fr: "Quel est ton métier ?", en: "What is your profession?" },
-            { fr: "Quelle est ta nationalité ?", en: "What is your nationality?" },
-            { fr: "Quelle est ta situation familiale ?", en: "What is your civil status?" },
-            { fr: "Où habites-tu ?", en: "Where do you live?" },
-            { fr: "Quelle est ton adresse ?", en: "What is your address?" },
-            { fr: "Quel est ton code postal ?", en: "What is your postal code?" },
-            { fr: "Dans quelle rue habites-tu ?", en: "What street do you live on?" },
-            { fr: "Quel est ton numéro de téléphone ?", en: "What is your telephone number?" },
-            { fr: "Quelle est ton adresse courriel ?", en: "What is your email address?" }
-        ];
+        const exerciseBank = questionBank.map(q => {
+            const options = buildOptions(q.correct, q.hint);
+            return {
+                sentence: q.sentence,
+                correct: q.correct,
+                options: options,
+                hint: q.hint,
+                english: q.english
+            };
+        });
 
-        const questionsFormel = [
-            { fr: "Quel âge avez-vous ?", en: "How old are you?" },
-            { fr: "Quelle est votre date de naissance ?", en: "What is your birthday?" },
-            { fr: "Avez-vous des enfants ?", en: "Do you have children?" },
-            { fr: "D’où venez-vous ?", en: "Where are you from?" },
-            { fr: "Quel est votre pays d’origine ?", en: "What is your country of origin?" },
-            { fr: "Quelles langues parlez-vous ?", en: "What languages do you speak?" },
-            { fr: "Comment vous appelez-vous ?", en: "What is your name?" },
-            { fr: "Quel est votre nom de famille ?", en: "What is your family name?" },
-            { fr: "Quel est votre métier ?", en: "What is your profession?" },
-            { fr: "Quelle est votre nationalité ?", en: "What is your nationality?" },
-            { fr: "Quelle est votre situation familiale ?", en: "What is your civil status?" },
-            { fr: "Où habitez-vous ?", en: "Where do you live?" },
-            { fr: "Quelle est votre adresse ?", en: "What is your address?" },
-            { fr: "Quel est votre code postal ?", en: "What is your postal code?" },
-            { fr: "Dans quelle rue habitez-vous ?", en: "What street do you live on?" },
-            { fr: "Quel est votre numéro de téléphone ?", en: "What is your telephone number?" },
-            { fr: "Quelle est votre adresse courriel ?", en: "What is your email address?" }
-        ];
-
-        const reponsesSample = [
-            ["J’ai 28 ans.", "J’ai 34 ans.", "J’ai 47 ans."],
-            ["Le 15 mars 1995.", "Je suis né le 3 juillet 1988.", "C’est le 22 novembre."],
-            ["Oui, j’ai deux garçons.", "Non, je n’ai pas d’enfants.", "J’ai une fille de 6 ans."],
-            ["Je viens de Lyon.", "Je suis de Belgique, de Liège.", "Du Maroc, de Casablanca."],
-            ["Je suis originaire du Sénégal.", "Mon pays d’origine, c’est l’Italie.", "Je viens du Mexique."],
-            ["Je parle français et anglais.", "Espagnol, français et un peu d’italien.", "Le portugais et le français."],
-            ["Je m’appelle Thomas.", "Moi, c’est Léa.", "Mon prénom est Nicolas."],
-            ["Mon nom de famille est Moreau.", "Je m’appelle Dupont.", "C’est Lambert."],
-            ["Je suis infirmier.", "Je travaille comme enseignante.", "Je suis ingénieur en informatique."],
-            ["Je suis française.", "Je suis canadien.", "Nationalité suisse."],
-            ["Je suis marié.", "Célibataire.", "Je vis en couple."],
-            ["J’habite à Paris.", "Je vis à Bruxelles.", "À Montréal."],
-            ["12 rue de la Paix, 75002 Paris.", "5 avenue Victor Hugo.", "8 boulevard Saint-Michel."],
-            ["C’est 69002.", "1000 Bruxelles.", "75005."],
-            ["J’habite rue des Lilas.", "Rue de la République.", "Sur la grand-place."],
-            ["C’est le 06 12 34 56 78.", "07 98 76 54 32.", "01 44 55 66 77."],
-            ["jean.dupont@courriel.fr", "marie95@courrier.fr", "pierre.legrand@service.fr"]
-        ];
-
-        // --- state ---
-        let currentMode = 'informal';
+        // ---- state ----
+        let currentExerciseSet = [];
         let currentIndex = 0;
-        let currentView = 'question';
+        let correctCount = 0;
+        let wrongCount = 0;
+        let isAnswered = false;
+        let currentExercise = null;
+        let flashTimeout = null;
 
-        // DOM
-        const toggleInf = document.getElementById('toggleInformal');
-        const toggleForm = document.getElementById('toggleFormal');
-        const questionFr = document.getElementById('questionFr');
-        const questionEn = document.getElementById('questionEn');
-        const responsesList = document.getElementById('responsesList');
+        // DOM elements
+        const appCard = document.getElementById('appCard');
+        const sentenceDisplay = document.getElementById('sentenceDisplay');
+        const translationDisplay = document.getElementById('translationDisplay');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const correctSpan = document.getElementById('correctCount');
+        const wrongSpan = document.getElementById('wrongCount');
         const nextBtn = document.getElementById('nextBtn');
-        const speakBtn = document.getElementById('speakBtn');
-        const viewQuestionBtn = document.getElementById('viewQuestionBtn');
-        const viewResponsesBtn = document.getElementById('viewResponsesBtn');
-        const questionDisplayArea = document.getElementById('questionDisplayArea');
-        const responsesDisplayArea = document.getElementById('responsesDisplayArea');
+        const resetBtn = document.getElementById('resetBtn');
 
-        function setView(view) {
-            currentView = view;
-            if (view === 'question') {
-                viewQuestionBtn.classList.add('active');
-                viewResponsesBtn.classList.remove('active');
-                questionDisplayArea.classList.remove('hidden');
-                responsesDisplayArea.classList.add('hidden');
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function getExerciseSet() {
+            return shuffleArray([...exerciseBank]);
+        }
+
+        function updateScoreDisplay() {
+            correctSpan.textContent = correctCount;
+            wrongSpan.textContent = wrongCount;
+        }
+
+        function flashAppCard(color) {
+            if (flashTimeout) {
+                clearTimeout(flashTimeout);
+            }
+            appCard.classList.remove('flash-green', 'flash-red');
+            
+            if (color === 'green') {
+                appCard.classList.add('flash-green');
+            } else if (color === 'red') {
+                appCard.classList.add('flash-red');
+            }
+            
+            flashTimeout = setTimeout(() => {
+                appCard.classList.remove('flash-green', 'flash-red');
+                flashTimeout = null;
+            }, 400);
+        }
+
+        function formatSentenceWithPlaceholder(sentence, filledWord = null) {
+            const parts = sentence.split('_____');
+            
+            if (parts.length !== 2) return sentence;
+            
+            const before = parts[0];
+            const after = parts[1];
+            
+            if (filledWord) {
+                return `
+                    <span class="sentence-part">${before}</span>
+                    <span class="placeholder filled">${filledWord}</span>
+                    <span class="sentence-part">${after}</span>
+                `;
             } else {
-                viewResponsesBtn.classList.add('active');
-                viewQuestionBtn.classList.remove('active');
-                responsesDisplayArea.classList.remove('hidden');
-                questionDisplayArea.classList.add('hidden');
-                populateResponsesList();
+                return `
+                    <span class="sentence-part">${before}</span>
+                    <span class="placeholder">_____</span>
+                    <span class="sentence-part">${after}</span>
+                `;
             }
         }
 
-        function populateResponsesList() {
-            const sample = reponsesSample[currentIndex] || ["exemple a", "exemple b"];
-            responsesList.innerHTML = '';
-            sample.forEach(text => {
-                const div = document.createElement('div');
-                div.className = 'response-item';
-                div.innerHTML = `<span class="response-bullet">→</span> ${text}`;
-                responsesList.appendChild(div);
+        function handleOptionClick(event) {
+            event.preventDefault();
+            if (isAnswered) return;
+
+            const btn = event.currentTarget;
+            const chosen = btn.dataset.det;
+            const correct = currentExercise.correct;
+
+            isAnswered = true;
+            
+            // Disable all buttons
+            document.querySelectorAll('.det-btn').forEach(b => { 
+                b.disabled = true; 
             });
+
+            // Fill in the blank with the correct answer using the styled placeholder
+            sentenceDisplay.innerHTML = formatSentenceWithPlaceholder(currentExercise.sentence, correct);
+
+            if (chosen === correct) {
+                btn.classList.add('selected-correct');
+                correctCount++;
+                flashAppCard('green');
+            } else {
+                btn.classList.add('selected-wrong');
+                document.querySelectorAll('.det-btn').forEach(b => {
+                    if (b.dataset.det === correct) {
+                        b.classList.add('selected-correct');
+                    }
+                });
+                wrongCount++;
+                flashAppCard('red');
+            }
+            
+            updateScoreDisplay();
+            nextBtn.disabled = false;
         }
 
-        function refreshDisplay(speak = false) {
-            const qset = (currentMode === 'informal') ? questionsInformel : questionsFormel;
-            const q = qset[currentIndex];
-            questionFr.innerText = q.fr;
-            questionEn.innerText = q.en;
-            if (speak) speakFrench(q.fr);
-            if (currentView === 'responses') {
-                populateResponsesList();
+        function renderExercise() {
+            if (!currentExerciseSet.length || currentIndex >= currentExerciseSet.length) {
+                return;
+            }
+
+            currentExercise = currentExerciseSet[currentIndex];
+            
+            // Use the formatted sentence with placeholder
+            sentenceDisplay.innerHTML = formatSentenceWithPlaceholder(currentExercise.sentence);
+            translationDisplay.textContent = currentExercise.english;
+
+            const opts = currentExercise.options;
+            const shuffledOpts = shuffleArray([...opts]);
+
+            optionsContainer.innerHTML = '';
+
+            shuffledOpts.forEach(det => {
+                const btn = document.createElement('div');
+                btn.className = 'det-btn';
+                btn.textContent = det;
+                btn.dataset.det = det;
+                
+                btn.addEventListener('click', handleOptionClick);
+                
+                optionsContainer.appendChild(btn);
+            });
+
+            isAnswered = false;
+            nextBtn.disabled = true;
+        }
+
+        function goToNext() {
+            if (!isAnswered) return;
+
+            if (currentIndex + 1 < currentExerciseSet.length) {
+                currentIndex++;
+                renderExercise();
+            } else {
+                sentenceDisplay.innerHTML = '<span class="placeholder">_____</span> <span class="sentence-part">(fin de série)</span>';
+                translationDisplay.textContent = "end of series - clique Rejouer";
+                nextBtn.disabled = true;
+                document.querySelectorAll('.det-btn').forEach(b => { b.disabled = true; });
             }
         }
 
-        function nextQuestion() {
-            const maxLen = questionsInformel.length;
-            currentIndex = (currentIndex + 1) % maxLen;
-            refreshDisplay(true);
-            if (currentView === 'responses') {
-                populateResponsesList();
+        function resetGame() {
+            currentExerciseSet = getExerciseSet().slice(0, 20);
+            currentIndex = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            isAnswered = false;
+            updateScoreDisplay();
+            renderExercise();
+            
+            if (flashTimeout) {
+                clearTimeout(flashTimeout);
+                appCard.classList.remove('flash-green', 'flash-red');
+                flashTimeout = null;
             }
-            document.querySelector('.app-card').classList.add('flash-green');
-            setTimeout(() => document.querySelector('.app-card').classList.remove('flash-green'), 200);
         }
 
-        // --- event listeners ---
-        toggleInf.addEventListener('click', () => {
-            toggleInf.classList.add('active');
-            toggleForm.classList.remove('active');
-            currentMode = 'informal';
-            refreshDisplay(true);
-            if (currentView === 'responses') populateResponsesList();
-        });
+        nextBtn.addEventListener('click', goToNext);
+        resetBtn.addEventListener('click', resetGame);
 
-        toggleForm.addEventListener('click', () => {
-            toggleForm.classList.add('active');
-            toggleInf.classList.remove('active');
-            currentMode = 'formal';
-            refreshDisplay(true);
-            if (currentView === 'responses') populateResponsesList();
-        });
-
-        viewQuestionBtn.addEventListener('click', () => setView('question'));
-        viewResponsesBtn.addEventListener('click', () => setView('responses'));
-        nextBtn.addEventListener('click', nextQuestion);
-        speakBtn.addEventListener('click', () => speakFrench(questionFr.innerText));
-
-        // --- init ---
-        (function init() {
-            currentIndex = Math.floor(Math.random() * questionsInformel.length);
-            refreshDisplay(true);
-            setView('question');
-        })();
-
-        if (synth) synth.getVoices();
+        resetGame();
     })();
 </script>
 </body>
